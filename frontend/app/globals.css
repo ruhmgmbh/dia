@@ -2,17 +2,27 @@
 
 @plugin "@tailwindcss/typography";
 
+@font-face {
+  font-family: "Greed Standard";
+  src: url("../assets/font/GreedStandard-TRIAL-Regular.woff2") format("woff2");
+  src: url("../assets/font/GreedStandard-TRIAL-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 @utility container {
   margin: 0 auto;
   padding: 0 2rem;
+  max-width: 2000px;
 }
 
 @theme {
   --shadow-layer: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
+  --shadow-nav: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  --default-transition-duration: 250ms;
 
   --color-framework: #000;
-  --color-black: #0b0b0b;
-  --color-white: #fff;
+
   --color-brand: #f50;
   --color-blue: #0052ff;
   --color-yellow: #cdea19;
@@ -28,8 +38,31 @@
   --color-gray-900: #1b1d27;
   --color-gray-950: #13141b;
 
-  --font-display: "Inter", "sans-serif";
-  --font-sans: "Inter", "sans-serif";
+  /* Colors */
+  --color-dia-yellow: #98ad00;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-grey: #212121;
 
-  --default-transition-duration: 250ms;
+  /* Fonts */
+  --font-display: "greedStandard";
+
+  /* Typography */
+  --text-h1: clamp(2.25rem, 0.8818rem + 5.8378vw, 5.625rem);
+  --text-h2: clamp(1.75rem, 0.9392rem + 3.4595vw, 3.75rem);
+  --text-h3: clamp(1.5rem, 1.348rem + 0.6486vw, 1.875rem);
+  --text-h4: clamp(1.125rem, 1.0743rem + 0.2162vw, 1.25rem);
+
+  --text-copy: clamp(1.25rem, 1.25rem + 0vw, 1.25rem);
+}
+
+h1 {
+  line-height: 100%;
+}
+
+p,
+a,
+div,
+span {
+  font-size: var(--text-copy);
 }

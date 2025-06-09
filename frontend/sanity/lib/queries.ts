@@ -13,6 +13,15 @@ const postFields = /* groq */ `
   "author": author->{firstName, lastName, picture},
 `;
 
+const projectsFields = `
+  _id,
+  "status": select(_originalId in path("drafts.**") => "draft", "published"),
+  "title": coalesce(title, "Untitled"),
+  "slug": slug.current,
+  excerpt,
+  coverImage,
+  "client": string,`;
+
 const linkReference = /* groq */ `
   _type == "link" => {
     "page": page->slug.current,
@@ -83,6 +92,12 @@ export const postQuery = defineQuery(`
     }
   },
     ${postFields}
+  }
+`);
+
+export const featuredProjectsQuery = defineQuery(`
+  *[_type == "project" && featured == true && defined(slug.current)] | order(date desc, _updatedAt desc) {
+    ${projectsFields}
   }
 `);
 
