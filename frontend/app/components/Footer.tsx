@@ -19,7 +19,7 @@ export default function Footer() {
   return (
     <footer className="bg-black">
       <div className="bg-black relative text-white container py-12 flex justify-between flex-col lg:flex-row gap-10">
-      <nav className="flex gap-7">
+      <nav className="flex flex-col lg:flex-row gap-3 lg:gap-7">
         {footerLinks.map((link, i) => {
           return(
             <Link href={link.url} key={i}>{link.label}</Link>
