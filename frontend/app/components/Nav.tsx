@@ -2,6 +2,7 @@
 import MenuIcon from "@/assets/icons/MenuIcon";
 import { useState } from "react";
 import { cn } from "@sglara/cn";
+import Link from "next/link";
 
 interface link {
   label: string;
@@ -71,7 +72,7 @@ export default function Navigation() {
     <div className="bg-black text-white flex flex-col rounded-[5px] mt-6 shadow-nav fixed top-0">
       <div className="flex justify-between p-2.5">
         <div className={cn(linkStyles, hoverDefault)}>
-          <a href="/">Dia</a>
+          <Link href="/">Dia</Link>
         </div>
         <div
           className={cn(
@@ -91,13 +92,13 @@ export default function Navigation() {
           <div className="flex flex-col">
             {mainLinks.map((link, i) => {
               return (
-                <a
+                <Link
                   key={i}
                   href={link.url}
                   className={cn(linkStyles, hoverDefault)}
                 >
                   {link.label}
-                </a>
+                </Link>
               );
             })}
           </div>
@@ -105,14 +106,14 @@ export default function Navigation() {
           <div className="flex flex-col">
             {socials.map((link, i) => {
               return (
-                <a
+                <Link
                   key={i}
                   href={link.url}
                   target="_blank"
                   className={cn(linkStyles, hoverDefault)}
                 >
                   {link.label}
-                </a>
+                </Link>
               );
             })}
           </div>
@@ -121,9 +122,9 @@ export default function Navigation() {
         <div className="flex flex-col bg-grey px-2.5 py-2.5">
           {secondLinks.map((link, i) => {
             return (
-              <a key={i} href={link.url} className={cn(linkStyles, hoverGrey)}>
+              <Link key={i} href={link.url} className={cn(linkStyles, hoverGrey)}>
                 {link.label}
-              </a>
+              </Link>
             );
           })}
         </div>

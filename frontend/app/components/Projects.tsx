@@ -17,7 +17,7 @@ const Project = ({
 }: {
   project: FeaturedProjectsQueryResult[number];
 }) => {
-  const { _id, title, slug, excerpt, client, coverImage } = project;
+  const { _id, title, slug, coverImage } = project;
 
   const attr = createDataAttribute({
     id: _id,
@@ -57,7 +57,7 @@ const Project = ({
 };
 
 const Projects = ({ children }: { children: React.ReactNode }) => (
-  <div className="pt-6 flex flex-col lg:flex-row w-full gap-6">{children}</div>
+  <div className="py-6 flex flex-col lg:flex-row w-full gap-6">{children}</div>
 );
 
 export const FeaturedPosts = async () => {

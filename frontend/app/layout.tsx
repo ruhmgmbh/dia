@@ -49,6 +49,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       images: ogImage ? [ogImage] : [],
     },
+    robots: {index: false}
   };
 }
 
