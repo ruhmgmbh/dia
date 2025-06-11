@@ -69,7 +69,7 @@ export default function Navigation() {
   const hoverGrey = `hover:bg-black`;
 
   return (
-    <div className="bg-black text-white flex flex-col rounded-[5px] mt-6 shadow-nav fixed top-0">
+    <div className="bg-black text-white flex flex-col rounded-[5px] mt-6 shadow-nav fixed top-0" onMouseLeave={() => toggleMenu(false)}>
       <div className="flex justify-between p-2.5">
         <div className={cn(linkStyles, hoverDefault)}>
           <Link href="/">Dia</Link>
@@ -87,7 +87,7 @@ export default function Navigation() {
       </div>
 
       {/* Nav/Open Menu */}
-      <nav className={`${menuOpen ? "flex" : "hidden"} flex-col gap-2.5`} onMouseLeave={() => toggleMenu(false)}>
+      <nav className={`${menuOpen ? "flex" : "hidden"} flex-col gap-2.5`}>
         <div className="flex gap-2.5 px-2.5">
           <div className="flex flex-col">
             {mainLinks.map((link, i) => {
