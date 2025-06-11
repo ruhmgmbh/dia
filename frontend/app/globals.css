@@ -14,6 +14,10 @@
   margin: 0 auto;
   padding: 0 2rem;
   max-width: 2000px;
+
+  @media (max-width: 640px) {
+    padding: 0 1rem; // or whatever padding you want on mobile
+  }
 }
 
 @theme {

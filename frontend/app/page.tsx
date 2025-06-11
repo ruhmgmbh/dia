@@ -31,8 +31,10 @@ export default async function Page() {
               </a>
             </p>
           </header>
-          <main className="bg-black container">
-            <FeaturedPosts />
+          <main className="bg-black">
+            <div className="container">
+              <FeaturedPosts />
+            </div>
           </main>
       </div>
       </div>
