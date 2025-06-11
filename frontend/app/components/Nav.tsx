@@ -87,7 +87,7 @@ export default function Navigation() {
       </div>
 
       {/* Nav/Open Menu */}
-      <nav className={`${menuOpen ? "flex" : "hidden"} flex-col gap-2.5`}>
+      <nav className={`${menuOpen ? "flex" : "hidden"} flex-col gap-2.5`} onMouseLeave={() => toggleMenu(false)}>
         <div className="flex gap-2.5 px-2.5">
           <div className="flex flex-col">
             {mainLinks.map((link, i) => {
