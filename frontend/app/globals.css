@@ -10,14 +10,18 @@
   font-style: normal;
 }
 
-@utility container {
-  margin: 0 auto;
-  padding: 0 2rem;
-  max-width: 2000px;
+:root {
+  --padding-container: 0 2rem;
 
   @media (max-width: 640px) {
-    padding: 0 1rem; // or whatever padding you want on mobile
+    --padding-container: 0 1rem;
   }
+}
+
+@utility container {
+  margin: 0 auto;
+  padding: var(--padding-container);
+  max-width: 2000px;
 }
 
 @theme {
