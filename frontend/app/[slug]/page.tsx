@@ -3,7 +3,7 @@ import Head from "next/head";
 
 import PageBuilderPage from "@/app/components/PageBuilder";
 import { sanityFetch } from "@/sanity/lib/live";
-import { getPageQuery, pagesSlugs } from "@/sanity/lib/queries";
+import { getPageMeta, getPageQuery, pagesSlugs } from "@/sanity/lib/queries";
 import { GetPageQueryResult } from "@/sanity.types";
 import { PageOnboarding } from "@/app/components/Onboarding";
 
@@ -32,15 +32,45 @@ export async function generateStaticParams() {
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
   const { data: page } = await sanityFetch({
-    query: getPageQuery,
+    query: getPageMeta,
     params,
     // Metadata should never contain stega
     stega: false,
   });
 
+
+  const fallbackTitle = page?.name || page?.heading || 'Untitled Page';
+
+  const showIndex = page?.seo?.noIndex === false
+
   return {
-    title: page?.name,
-    description: page?.heading,
+    title: page?.seo.title,
+    description: page?.seo.description,
+    keywords: page?.seo.keywords,
+    robots: {
+      index: showIndex,
+      follow: showIndex,
+      nocache: false,
+      googleBot: {
+      index: showIndex,
+      follow: showIndex,
+      }
+    },
+    openGraph: {
+      title: page?.seo?.title || fallbackTitle,
+      description: page?.seo?.description || '',
+      images: page?.seo?.image?.asset?.url
+        ? [{ url: page.seo.image.asset.url }]
+        : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: page?.seo?.title || fallbackTitle,
+      description: page?.seo?.description || '',
+      images: page?.seo?.image?.asset?.url
+        ? [page.seo.image.asset.url]
+        : [],
+    },
   } satisfies Metadata;
 }
 

@@ -62,6 +62,25 @@ export const getPageQuery = defineQuery(`
   }
 `);
 
+export const getPageMeta = defineQuery(`
+    *[_type == "page" && slug.current == $slug][0]{
+    title,
+    heading,
+    body,
+    seo {
+      title,
+      description,
+      image {
+        asset -> {
+          url
+        }
+      },
+      keywords,
+      noIndex
+    }
+  }
+`);
+
 export const sitemapData = defineQuery(`
   *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {
     "slug": slug.current,

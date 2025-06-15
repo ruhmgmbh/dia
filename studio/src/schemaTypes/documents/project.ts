@@ -5,6 +5,12 @@ export const project = defineType({
   name: 'project',
   title: 'Project',
   icon: ProjectsIcon,
+
+  groups: [
+    { name: 'content', title: 'Content' },
+    { name: 'seo', title: 'SEO' },
+  ],
+
   type: 'document',
   fields: [
     defineField({
@@ -13,12 +19,14 @@ export const project = defineType({
       type: 'boolean',
       initialValue: false,
       description: 'Should the project be featured on the home page?',
+      group: "content",
     }),
     defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
       validation: (rule) => rule.required(),
+      group: "content",
     }),
     defineField({
       name: 'slug',
@@ -31,16 +39,19 @@ export const project = defineType({
         isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
       validation: (rule) => rule.required(),
+      group: "content",
     }),
     defineField({
       name: 'content',
       title: 'Content',
       type: 'blockContent',
+      group: "content",
     }),
     defineField({
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
+      group: "content",
     }),
     defineField({
       name: 'coverImage',
@@ -70,12 +81,20 @@ export const project = defineType({
         },
       ],
       validation: (rule) => rule.required(),
+      group: "content",
     }),
     defineField({
       name: 'client',
       title: 'Client',
       type: 'string',
       validation: (rule) => rule.required(),
+      group: "content",
+    }),
+    defineField({
+      name: "seo",
+      title: "SEO Settings",
+      type: "seo",
+      group: "seo"
     }),
   ],
 })
