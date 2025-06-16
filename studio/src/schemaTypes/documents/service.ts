@@ -8,6 +8,7 @@ export const service = defineType({
   type: 'document',
 
   groups: [
+    { name: 'basicInfo', title: 'Basic Info' },
     { name: 'content', title: 'Content' },
     { name: 'seo', title: 'SEO' },
   ],
@@ -18,13 +19,26 @@ export const service = defineType({
       title: 'Name',
       type: 'string',
       validation: (rule) => rule.required(),
-      group: "content",
+      group: "basicInfo",
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      description: 'A slug is required for the project to show up in the preview',
+      options: {
+        source: 'title',
+        maxLength: 96,
+        isUnique: (value, context) => context.defaultIsUnique(value, context),
+      },
+      validation: (rule) => rule.required(),
+      group: "basicInfo",
     }),
     defineField({
         name: 'description',
         title: 'Description',
         type: 'text',
-        group: "content",
+        group: "basicInfo",
     }),
     defineField({
         name: 'coverImage',
@@ -53,6 +67,25 @@ export const service = defineType({
             },
           },
         ],
+        group: "basicInfo",
+      }),
+      defineField({
+        name: 'pageBuilder',
+        title: 'Page builder',
+        type: 'array',
+        of: [{type: 'callToAction'}, {type: 'infoSection'}],
+        options: {
+          insertMenu: {
+            // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/array-type#efb1fe03459d
+            views: [
+              {
+                name: 'grid',
+                previewImageUrl: (schemaTypeName) =>
+                  `/static/page-builder-thumbnails/${schemaTypeName}.webp`,
+              },
+            ],
+          },
+        },
         group: "content",
       }),
       defineField({

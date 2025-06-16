@@ -3,6 +3,7 @@ import { Link } from "@/sanity.types";
 import { dataset, projectId, studioUrl } from "@/sanity/lib/api";
 import { createDataAttribute, CreateDataAttributeProps } from "next-sanity";
 import { getImageDimensions } from "@sanity/asset-utils";
+import { getFileAsset } from "@sanity/asset-utils";
 
 const imageBuilder = createImageUrlBuilder({
   projectId: projectId || "",
@@ -71,6 +72,18 @@ export function linkResolver(link: Link | undefined) {
     default:
       return null;
   }
+}
+
+const sanityConfig = {
+  projectId: projectId || "",
+  dataset: dataset || "",
+};
+
+export function urlForFile(source: any): string | undefined {
+  if (!source?.asset?._ref) return undefined;
+
+  const asset = getFileAsset(source, sanityConfig);
+  return asset?.url;
 }
 
 type DataAttributeConfig = CreateDataAttributeProps &

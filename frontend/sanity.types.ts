@@ -23,7 +23,7 @@ export type CallToAction = {
 
 export type Link = {
   _type: "link";
-  linkType?: "href" | "page" | "post";
+  linkType?: "href" | "page" | "post" | "person" | "client" | "networkPartner" | "project" | "service";
   href?: string;
   page?: {
     _ref: string;
@@ -37,81 +37,51 @@ export type Link = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "post";
   };
+  person?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "person";
+  };
+  client?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "client";
+  };
+  networkPartner?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "networkPartner";
+  };
+  project?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "project";
+  };
+  service?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "service";
+  };
+  technology?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "technology";
+  };
   openInNewTab?: boolean;
 };
 
-export type InfoSection = {
-  _type: "infoSection";
-  heading?: string;
-  subheading?: string;
-  content?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      linkType?: "href" | "page" | "post" | "person" | "client" | "networkPartner" | "project" | "service";
-      href?: string;
-      page?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "page";
-      };
-      post?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "post";
-      };
-      person?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "person";
-      };
-      client?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "client";
-      };
-      networkPartner?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "networkPartner";
-      };
-      project?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "project";
-      };
-      service?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "service";
-      };
-      technology?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "technology";
-      };
-      openInNewTab?: boolean;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
+export type TabbedContent = {
+  _type: "tabbedContent";
+  title?: string;
+  tabs?: Array<{
     _key: string;
-  }>;
+  } & Tab>;
 };
 
 export type BlockContent = Array<{
@@ -182,6 +152,47 @@ export type BlockContent = Array<{
   _type: "block";
   _key: string;
 }>;
+
+export type Tab = {
+  _type: "tab";
+  title: string;
+  contentType: "content" | "links" | "imageCTA";
+  mediaType?: "image" | "video";
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  video?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    media?: unknown;
+    _type: "file";
+  };
+  content?: InfoSection;
+  links?: Array<{
+    _key: string;
+  } & Link>;
+  link?: string;
+};
+
+export type InfoSection = {
+  _type: "infoSection";
+  heading?: string;
+  subheading?: string;
+  content?: BlockContent;
+};
 
 export type Settings = {
   _id: string;
@@ -312,6 +323,13 @@ export type Project = {
     alt?: string;
     _type: "image";
   };
+  pageBuilder?: Array<{
+    _key: string;
+  } & CallToAction | {
+    _key: string;
+  } & InfoSection | {
+    _key: string;
+  } & TabbedContent>;
   client?: {
     _ref: string;
     _type: "reference";
@@ -342,29 +360,6 @@ export type Project = {
   seo?: Seo;
 };
 
-export type Technology = {
-  _id: string;
-  _type: "technology";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name: string;
-  description?: string;
-  logo?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-};
-
 export type Service = {
   _id: string;
   _type: "service";
@@ -372,6 +367,7 @@ export type Service = {
   _updatedAt: string;
   _rev: string;
   name: string;
+  slug: Slug;
   description?: string;
   coverImage?: {
     asset?: {
@@ -386,6 +382,11 @@ export type Service = {
     alt?: string;
     _type: "image";
   };
+  pageBuilder?: Array<{
+    _key: string;
+  } & CallToAction | {
+    _key: string;
+  } & InfoSection>;
   seo?: Seo;
 };
 
@@ -407,6 +408,29 @@ export type Seo = {
     _type: "image";
   };
   noIndex?: boolean;
+};
+
+export type Technology = {
+  _id: string;
+  _type: "technology";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
+  description?: string;
+  logo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
 };
 
 export type NetworkPartner = {
@@ -485,6 +509,15 @@ export type Person = {
     alt?: string;
     _type: "image";
   };
+};
+
+export type MediaTag = {
+  _id: string;
+  _type: "media.tag";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: Slug;
 };
 
 export type SanityAssistInstructionTask = {
@@ -726,7 +759,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = CallToAction | Link | InfoSection | BlockContent | Settings | Page | Post | Project | Technology | Service | Seo | NetworkPartner | Client | Person | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = CallToAction | Link | TabbedContent | BlockContent | Tab | InfoSection | Settings | Page | Post | Project | Service | Seo | Technology | NetworkPartner | Client | Person | MediaTag | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
@@ -802,10 +835,46 @@ export type GetPageQueryResult = {
     buttonText?: string;
     link: {
       _type: "link";
-      linkType?: "href" | "page" | "post";
+      linkType?: "client" | "href" | "networkPartner" | "page" | "person" | "post" | "project" | "service";
       href?: string;
       page: string | null;
       post: string | null;
+      person?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "person";
+      };
+      client?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "client";
+      };
+      networkPartner?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "networkPartner";
+      };
+      project?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "project";
+      };
+      service?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "service";
+      };
+      technology?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "technology";
+      };
       openInNewTab?: boolean;
     } | null;
   } | {
@@ -1080,14 +1149,28 @@ export type PostQueryResult = {
     };
   } | null;
 } | null;
-// Variable: featuredProjectsQuery
-// Query: *[_type == "project" && featured == true && defined(slug.current)] | order(date desc, _updatedAt desc) {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "client": string,  }
-export type FeaturedProjectsQueryResult = Array<{
+// Variable: postPagesSlugs
+// Query: *[_type == "post" && defined(slug.current)]  {"slug": slug.current}
+export type PostPagesSlugsResult = Array<{
+  slug: string;
+}>;
+// Variable: pagesSlugs
+// Query: *[_type == "page" && defined(slug.current)]  {"slug": slug.current}
+export type PagesSlugsResult = Array<{
+  slug: string;
+}>;
+
+// Source: ./sanity/lib/queries/project.ts
+// Variable: projectQuery
+// Query: *[_type == "project" && slug.current == $slug][0]{      _id,  _type,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  content,  coverImage,  client->{    _id,    name,    coverImage,    description,    "slug": slug.current  },  technologies[]->{    _id,    name  },  networkPartners[]->{    _id,    name  },  services[]->{    _id,    name,    "slug": slug.current  },  seo {    title,    description,    keywords,    noIndex,    image {      asset->{        url      }    }  },  "pageBuilder": pageBuilder[]{    ...,    _type == "callToAction" => {        link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    },    _type == "infoSection" => {      content[]{        ...,        markDefs[]{          ...,            _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }        }      }    }  }  }
+export type ProjectQueryResult = {
   _id: string;
+  _type: "project";
   status: "draft" | "published";
   title: string;
   slug: string;
   excerpt: string | null;
+  content: BlockContent | null;
   coverImage: {
     asset?: {
       _ref: string;
@@ -1101,17 +1184,363 @@ export type FeaturedProjectsQueryResult = Array<{
     alt?: string;
     _type: "image";
   };
-  client: null;
-}>;
-// Variable: postPagesSlugs
-// Query: *[_type == "post" && defined(slug.current)]  {"slug": slug.current}
-export type PostPagesSlugsResult = Array<{
+  client: {
+    _id: string;
+    name: string;
+    coverImage: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    } | null;
+    description: string | null;
+    slug: null;
+  } | null;
+  technologies: Array<{
+    _id: string;
+    name: string;
+  }> | null;
+  networkPartners: Array<{
+    _id: string;
+    name: string;
+  }> | null;
+  services: Array<{
+    _id: string;
+    name: string;
+    slug: string;
+  }> | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+    keywords: Array<string> | null;
+    noIndex: boolean | null;
+    image: {
+      asset: {
+        url: string | null;
+      } | null;
+    } | null;
+  } | null;
+  pageBuilder: Array<{
+    _key: string;
+    _type: "callToAction";
+    heading: string;
+    text?: string;
+    buttonText?: string;
+    link: {
+      _type: "link";
+      linkType?: "client" | "href" | "networkPartner" | "page" | "person" | "post" | "project" | "service";
+      href?: string;
+      page: string | null;
+      post: string | null;
+      person?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "person";
+      };
+      client?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "client";
+      };
+      networkPartner?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "networkPartner";
+      };
+      project?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "project";
+      };
+      service?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "service";
+      };
+      technology?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "technology";
+      };
+      openInNewTab?: boolean;
+    } | null;
+  } | {
+    _key: string;
+    _type: "infoSection";
+    heading?: string;
+    subheading?: string;
+    content: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs: Array<{
+        linkType?: "client" | "href" | "networkPartner" | "page" | "person" | "post" | "project" | "service";
+        href?: string;
+        page: string | null;
+        post: string | null;
+        person?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "person";
+        };
+        client?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "client";
+        };
+        networkPartner?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "networkPartner";
+        };
+        project?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "project";
+        };
+        service?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "service";
+        };
+        technology?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "technology";
+        };
+        openInNewTab?: boolean;
+        _type: "link";
+        _key: string;
+      }> | null;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | null;
+  } | {
+    _key: string;
+    _type: "tabbedContent";
+    title?: string;
+    tabs?: Array<{
+      _key: string;
+    } & Tab>;
+  }> | null;
+} | null;
+// Variable: projectSlugs
+// Query: *[_type == "project" && defined(slug.current)]{    "slug": slug.current  }
+export type ProjectSlugsResult = Array<{
   slug: string;
 }>;
-// Variable: pagesSlugs
-// Query: *[_type == "page" && defined(slug.current)]  {"slug": slug.current}
-export type PagesSlugsResult = Array<{
+// Variable: featuredProjectsQuery
+// Query: *[_type == "project" && featured == true && defined(slug.current)] | order(_updatedAt desc) {      _id,  _type,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  content,  coverImage,  client->{    _id,    name,    coverImage,    description,    "slug": slug.current  },  technologies[]->{    _id,    name  },  networkPartners[]->{    _id,    name  },  services[]->{    _id,    name,    "slug": slug.current  },  seo {    title,    description,    keywords,    noIndex,    image {      asset->{        url      }    }  },  "pageBuilder": pageBuilder[]{    ...,    _type == "callToAction" => {        link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }    },    _type == "infoSection" => {      content[]{        ...,        markDefs[]{          ...,            _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }        }      }    }  }  }
+export type FeaturedProjectsQueryResult = Array<{
+  _id: string;
+  _type: "project";
+  status: "draft" | "published";
+  title: string;
   slug: string;
+  excerpt: string | null;
+  content: BlockContent | null;
+  coverImage: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  client: {
+    _id: string;
+    name: string;
+    coverImage: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    } | null;
+    description: string | null;
+    slug: null;
+  } | null;
+  technologies: Array<{
+    _id: string;
+    name: string;
+  }> | null;
+  networkPartners: Array<{
+    _id: string;
+    name: string;
+  }> | null;
+  services: Array<{
+    _id: string;
+    name: string;
+    slug: string;
+  }> | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+    keywords: Array<string> | null;
+    noIndex: boolean | null;
+    image: {
+      asset: {
+        url: string | null;
+      } | null;
+    } | null;
+  } | null;
+  pageBuilder: Array<{
+    _key: string;
+    _type: "callToAction";
+    heading: string;
+    text?: string;
+    buttonText?: string;
+    link: {
+      _type: "link";
+      linkType?: "client" | "href" | "networkPartner" | "page" | "person" | "post" | "project" | "service";
+      href?: string;
+      page: string | null;
+      post: string | null;
+      person?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "person";
+      };
+      client?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "client";
+      };
+      networkPartner?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "networkPartner";
+      };
+      project?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "project";
+      };
+      service?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "service";
+      };
+      technology?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "technology";
+      };
+      openInNewTab?: boolean;
+    } | null;
+  } | {
+    _key: string;
+    _type: "infoSection";
+    heading?: string;
+    subheading?: string;
+    content: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs: Array<{
+        linkType?: "client" | "href" | "networkPartner" | "page" | "person" | "post" | "project" | "service";
+        href?: string;
+        page: string | null;
+        post: string | null;
+        person?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "person";
+        };
+        client?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "client";
+        };
+        networkPartner?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "networkPartner";
+        };
+        project?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "project";
+        };
+        service?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "service";
+        };
+        technology?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "technology";
+        };
+        openInNewTab?: boolean;
+        _type: "link";
+        _key: string;
+      }> | null;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | null;
+  } | {
+    _key: string;
+    _type: "tabbedContent";
+    title?: string;
+    tabs?: Array<{
+      _key: string;
+    } & Tab>;
+  }> | null;
 }>;
 
 // Query TypeMap
@@ -1125,8 +1554,10 @@ declare module "@sanity/client" {
     "\n  *[_type == \"post\" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": AllPostsQueryResult;
     "\n  *[_type == \"post\" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": MorePostsQueryResult;
     "\n  *[_type == \"post\" && slug.current == $slug] [0] {\n    content[]{\n    ...,\n    markDefs[]{\n      ...,\n      \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n    }\n  },\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": PostQueryResult;
-    "\n  *[_type == \"project\" && featured == true && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"client\": string,\n  }\n": FeaturedProjectsQueryResult;
     "\n  *[_type == \"post\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PostPagesSlugsResult;
     "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;
+    "\n  *[_type == \"project\" && slug.current == $slug][0]{\n    \n  _id,\n  _type,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  content,\n  coverImage,\n  client->{\n    _id,\n    name,\n    coverImage,\n    description,\n    \"slug\": slug.current\n  },\n  technologies[]->{\n    _id,\n    name\n  },\n  networkPartners[]->{\n    _id,\n    name\n  },\n  services[]->{\n    _id,\n    name,\n    \"slug\": slug.current\n  },\n  seo {\n    title,\n    description,\n    keywords,\n    noIndex,\n    image {\n      asset->{\n        url\n      }\n    }\n  },\n  \"pageBuilder\": pageBuilder[]{\n    ...,\n    _type == \"callToAction\" => {\n      \n  link {\n      ...,\n      \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n      }\n\n    },\n    _type == \"infoSection\" => {\n      content[]{\n        ...,\n        markDefs[]{\n          ...,\n          \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n        }\n      }\n    }\n  }\n\n  }\n": ProjectQueryResult;
+    "\n  *[_type == \"project\" && defined(slug.current)]{\n    \"slug\": slug.current\n  }\n": ProjectSlugsResult;
+    "\n  *[_type == \"project\" && featured == true && defined(slug.current)] | order(_updatedAt desc) {\n    \n  _id,\n  _type,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  content,\n  coverImage,\n  client->{\n    _id,\n    name,\n    coverImage,\n    description,\n    \"slug\": slug.current\n  },\n  technologies[]->{\n    _id,\n    name\n  },\n  networkPartners[]->{\n    _id,\n    name\n  },\n  services[]->{\n    _id,\n    name,\n    \"slug\": slug.current\n  },\n  seo {\n    title,\n    description,\n    keywords,\n    noIndex,\n    image {\n      asset->{\n        url\n      }\n    }\n  },\n  \"pageBuilder\": pageBuilder[]{\n    ...,\n    _type == \"callToAction\" => {\n      \n  link {\n      ...,\n      \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n      }\n\n    },\n    _type == \"infoSection\" => {\n      content[]{\n        ...,\n        markDefs[]{\n          ...,\n          \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n        }\n      }\n    }\n  }\n\n  }\n": FeaturedProjectsQueryResult;
   }
 }

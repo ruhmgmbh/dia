@@ -4,7 +4,7 @@ import { urlForImage } from "@/sanity/lib/utils";
 import Image from "next/image";
 
 import { sanityFetch } from "@/sanity/lib/live";
-import { featuredProjectsQuery } from "@/sanity/lib/queries";
+import { featuredProjectsQuery } from "@/sanity/lib/queries/project";
 import {
   Project as ProjectType,
   FeaturedProjectsQueryResult,
@@ -43,7 +43,9 @@ const Project = ({
           alt={coverImage?.alt || ""}
           className="object-cover"
           fill
-          src={urlForImage(coverImage)?.fit("crop").auto('format').url() as string}
+          src={
+            urlForImage(coverImage)?.fit("crop").auto("format").url() as string
+          }
         />
       </div>
 

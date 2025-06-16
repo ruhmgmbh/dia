@@ -98,6 +98,15 @@ export default {
                 fontSize: "var(--text-h1)",
                 lineHeight: "100%",
               },
+              h2: {
+                fontSize: "5px",
+                lineHeight: "100%",
+              },
+              blockquote: {
+                fontSize: "var(--copy-quote)",
+                lineHeight: "120%",
+                fontWeight: "400"
+              }
             },
           },
         },

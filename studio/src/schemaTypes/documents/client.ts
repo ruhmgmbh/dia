@@ -14,42 +14,54 @@ export const client = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-        name: 'description',
-        title: 'Description',
-        type: 'text',
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      description: 'A slug is required for the project to show up in the preview',
+      options: {
+        source: 'title',
+        maxLength: 96,
+        isUnique: (value, context) => context.defaultIsUnique(value, context),
+      },
+      validation: (rule) => rule.required(),
     }),
     defineField({
-        name: 'coverImage',
-        title: 'Cover Image',
-        type: 'image',
-        options: {
-          hotspot: true,
-          aiAssist: {
-            imageDescriptionField: 'alt',
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+    }),
+    defineField({
+      name: 'coverImage',
+      title: 'Cover Image',
+      type: 'image',
+      options: {
+        hotspot: true,
+        aiAssist: {
+          imageDescriptionField: 'alt',
+        },
+      },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alternative text',
+          description: 'Important for SEO and accessibility.',
+          validation: (rule) => {
+            // Custom validation to ensure alt text is provided if the image is present. https://www.sanity.io/docs/validation
+            return rule.custom((alt, context) => {
+              if ((context.document?.coverImage as any)?.asset?._ref && !alt) {
+                return 'Required'
+              }
+              return true
+            })
           },
         },
-        fields: [
-          {
-            name: 'alt',
-            type: 'string',
-            title: 'Alternative text',
-            description: 'Important for SEO and accessibility.',
-            validation: (rule) => {
-              // Custom validation to ensure alt text is provided if the image is present. https://www.sanity.io/docs/validation
-              return rule.custom((alt, context) => {
-                if ((context.document?.coverImage as any)?.asset?._ref && !alt) {
-                  return 'Required'
-                }
-                return true
-              })
-            },
-          },
-        ],
-      }),
+      ],
+    }),
     defineField({
-        name: 'linkWebsite',
-        title: 'Link Website',
-        type: 'url',
+      name: 'linkWebsite',
+      title: 'Link Website',
+      type: 'url',
     }),
   ],
 })

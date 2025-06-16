@@ -7,11 +7,13 @@ import {settings} from './singletons/settings'
 import {link} from './objects/link'
 import {blockContent} from './objects/blockContent'
 import {project} from './documents/project'
-import { client } from './documents/client'
+import {client} from './documents/client'
 import seo from './objects/seo'
-import { technology } from './documents/technology'
-import { networkPartner } from './documents/networkPartner'
-import { service } from './documents/service'
+import {technology} from './documents/technology'
+import {networkPartner} from './documents/networkPartner'
+import {service} from './documents/service'
+import {tabbedContent} from './objects/tabbedContent/tabbedContent'
+import {tab} from './objects/tabbedContent/tab'
 
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/schema-types
 
@@ -28,9 +30,11 @@ export const schemaTypes = [
   technology,
   person,
   // Objects
+  tab,
   blockContent,
+  tabbedContent,
   infoSection,
   callToAction,
   link,
-  seo
+  seo,
 ]

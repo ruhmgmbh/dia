@@ -7,8 +7,9 @@ export const project = defineType({
   icon: ProjectsIcon,
 
   groups: [
-    { name: 'content', title: 'Content' },
-    { name: 'seo', title: 'SEO' },
+    {name: 'basicInfo', title: 'Basic Info'},
+    {name: 'content', title: 'Content'},
+    {name: 'seo', title: 'SEO'},
   ],
 
   type: 'document',
@@ -19,14 +20,14 @@ export const project = defineType({
       type: 'boolean',
       initialValue: false,
       description: 'Should the project be featured on the home page?',
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
       validation: (rule) => rule.required(),
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
       name: 'slug',
@@ -39,19 +40,19 @@ export const project = defineType({
         isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
       validation: (rule) => rule.required(),
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
       name: 'content',
       title: 'Content',
       type: 'blockContent',
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
       name: 'coverImage',
@@ -81,50 +82,69 @@ export const project = defineType({
         },
       ],
       validation: (rule) => rule.required(),
-      group: "content",
+      group: 'basicInfo',
+    }),
+    defineField({
+      name: 'pageBuilder',
+      title: 'Page builder',
+      type: 'array',
+      of: [{type: 'callToAction'}, {type: 'infoSection'}, {type: 'tabbedContent'}],
+      options: {
+        insertMenu: {
+          // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/array-type#efb1fe03459d
+          views: [
+            {
+              name: 'grid',
+              previewImageUrl: (schemaTypeName) =>
+                `/static/page-builder-thumbnails/${schemaTypeName}.webp`,
+            },
+          ],
+        },
+      },
+      group: 'content',
     }),
     defineField({
       name: 'client',
       title: 'Client',
       type: 'reference',
-      to: [{ type: "client"}],
-      group: "content",
+      to: [{type: 'client'}],
+      group: 'basicInfo',
     }),
     defineField({
       name: 'technologies',
       title: 'Technologies',
       type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'technology' }] }],
+      of: [{type: 'reference', to: [{type: 'technology'}]}],
       options: {
-        layout: 'tags'
+        layout: 'tags',
       },
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
       name: 'networkPartners',
       title: 'Network Partners',
       type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'networkPartner' }] }],
+      of: [{type: 'reference', to: [{type: 'networkPartner'}]}],
       options: {
-        layout: 'tags'
+        layout: 'tags',
       },
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
       name: 'services',
       title: 'Relevant Services',
       type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'service' }] }],
+      of: [{type: 'reference', to: [{type: 'service'}]}],
       options: {
-        layout: 'tags'
+        layout: 'tags',
       },
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
-      name: "seo",
-      title: "SEO Settings",
-      type: "seo",
-      group: "seo"
+      name: 'seo',
+      title: 'SEO Settings',
+      type: 'seo',
+      group: 'seo',
     }),
   ],
 })

@@ -107,7 +107,7 @@ export default async function Page(props: Props) {
           </div>
         </div>
       </div>
-      <PageBuilderPage page={page as GetPageQueryResult} />
+      <PageBuilderPage page={page} />
     </div>
   );
 }

@@ -11,17 +11,29 @@
 }
 
 :root {
+  --max-width: 1600px;
   --padding-container: 0 2rem;
+  --padding-rightContainer: 0 10% 0 35%;
 
   @media (max-width: 640px) {
     --padding-container: 0 1rem;
+  }
+
+  @media (max-width: 1024px) {
+    --padding-rightContainer: 0 1rem;
   }
 }
 
 @utility container {
   margin: 0 auto;
   padding: var(--padding-container);
-  max-width: 2000px;
+  max-width: var(--max-width);
+}
+
+@utility rightContainer {
+  margin: 0 auto;
+  padding: var(--padding-rightContainer);
+  max-width: var(--max-width);
 }
 
 @theme {
@@ -62,6 +74,29 @@
   --text-h4: clamp(1.125rem, 1.0743rem + 0.2162vw, 1.25rem);
 
   --text-copy: clamp(1.25rem, 1.25rem + 0vw, 1.25rem);
+  --text-copy-small: clamp(1rem, 0.8571rem + 0.2976vw, 1.125rem);
+  --text-quote: clamp(1.3125rem, 0.6696rem + 1.3393vw, 1.875rem);
+}
+
+@utility prose {
+  blockquote {
+    border-left: 0;
+    padding-left: 0;
+    font-size: var(--text-quote);
+    font-weight: 400;
+    font-style: normal;
+    line-height: 120%;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  h2,h3,h4, h5 {
+    margin-bottom: 20px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
 }
 
 h1 {
@@ -73,4 +108,5 @@ a,
 div,
 span {
   font-size: var(--text-copy);
+  line-height: 140%;
 }

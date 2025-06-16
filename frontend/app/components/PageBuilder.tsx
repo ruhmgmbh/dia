@@ -9,8 +9,12 @@ import { GetPageQueryResult } from "@/sanity.types";
 import { dataAttr } from "@/sanity/lib/utils";
 import { studioUrl } from "@/sanity/lib/api";
 
-type PageBuilderPageProps = {
-  page: GetPageQueryResult;
+type PageBuilderProps = {
+  page: {
+    _id: string;
+    _type: string;
+    pageBuilder?: PageBuilderSection[] | null;
+  };
 };
 
 type PageBuilderSection = {
@@ -30,11 +34,11 @@ type PageData = {
 
 function renderSections(
   pageBuilderSections: PageBuilderSection[],
-  page: GetPageQueryResult,
-) {
-  if (!page) {
-    return null;
+  page: {
+    _id: string;
+    _type: string;
   }
+) {
   return (
     <div
       data-sanity={dataAttr({
@@ -82,37 +86,28 @@ function renderEmptyState(page: GetPageQueryResult) {
   );
 }
 
-export default function PageBuilder({ page }: PageBuilderPageProps) {
+export default function PageBuilder({ page }: PageBuilderProps) {
   const pageBuilderSections = useOptimistic<
     PageBuilderSection[] | undefined,
     SanityDocument<PageData>
   >(page?.pageBuilder || [], (currentSections, action) => {
-    // The action contains updated document data from Sanity
-    // when someone makes an edit in the Studio
+    if (action.id !== page?._id) return currentSections;
 
-    // If the edit was to a different document, ignore it
-    if (action.id !== page?._id) {
-      return currentSections;
-    }
-
-    // If there are sections in the updated document, use them
     if (action.document.pageBuilder) {
-      // Reconcile References. https://www.sanity.io/docs/enabling-drag-and-drop#ffe728eea8c1
       return action.document.pageBuilder.map(
         (section) =>
-          currentSections?.find((s) => s._key === section?._key) || section,
+          currentSections?.find((s) => s._key === section?._key) || section
       );
     }
 
-    // Otherwise keep the current sections
     return currentSections;
   });
 
   if (!page) {
-    return renderEmptyState(page);
+    return null;
   }
 
   return pageBuilderSections && pageBuilderSections.length > 0
     ? renderSections(pageBuilderSections, page)
-    : renderEmptyState(page);
+    : null;
 }
