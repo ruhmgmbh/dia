@@ -36,6 +36,11 @@ export const blockContent = defineType({
                     {title: 'URL', value: 'href'},
                     {title: 'Page', value: 'page'},
                     {title: 'Post', value: 'post'},
+                    {title: 'Person', value: 'person'},
+                    {title: 'Client', value: 'client'},
+                    {title: 'Network Partner', value: 'networkPartner'},
+                    {title: 'Project', value: 'project'},
+                    {title: 'Service', value: 'service'},
                   ],
                   layout: 'radio',
                 },
@@ -77,6 +82,90 @@ export const blockContent = defineType({
                   Rule.custom((value, context: any) => {
                     if (context.parent?.linkType === 'post' && !value) {
                       return 'Post reference is required when Link Type is Post'
+                    }
+                    return true
+                  }),
+              }),
+              defineField({
+                name: 'person',
+                title: 'Person',
+                type: 'reference',
+                to: [{type: 'person'}],
+                hidden: ({parent}) => parent?.linkType !== 'person',
+                validation: (Rule) =>
+                  Rule.custom((value, context: any) => {
+                    if (context.parent?.linkType === 'person' && !value) {
+                      return 'Person reference is required when Link Type is Person'
+                    }
+                    return true
+                  }),
+              }),
+              defineField({
+                name: 'client',
+                title: 'Client',
+                type: 'reference',
+                to: [{type: 'client'}],
+                hidden: ({parent}) => parent?.linkType !== 'client',
+                validation: (Rule) =>
+                  Rule.custom((value, context: any) => {
+                    if (context.parent?.linkType === 'client' && !value) {
+                      return 'Client reference is required when Link Type is Client'
+                    }
+                    return true
+                  }),
+              }),
+              defineField({
+                name: 'networkPartner',
+                title: 'Network Partner',
+                type: 'reference',
+                to: [{type: 'networkPartner'}],
+                hidden: ({parent}) => parent?.linkType !== 'networkPartner',
+                validation: (Rule) =>
+                  Rule.custom((value, context: any) => {
+                    if (context.parent?.linkType === 'networkPartner' && !value) {
+                      return 'Network Partner reference is required when Link Type is Network Partner'
+                    }
+                    return true
+                  }),
+              }),
+              defineField({
+                name: 'project',
+                title: 'Project',
+                type: 'reference',
+                to: [{type: 'project'}],
+                hidden: ({parent}) => parent?.linkType !== 'project',
+                validation: (Rule) =>
+                  Rule.custom((value, context: any) => {
+                    if (context.parent?.linkType === 'project' && !value) {
+                      return 'Project reference is required when Link Type is Project'
+                    }
+                    return true
+                  }),
+              }),
+              defineField({
+                name: 'service',
+                title: 'Service',
+                type: 'reference',
+                to: [{type: 'service'}],
+                hidden: ({parent}) => parent?.linkType !== 'service',
+                validation: (Rule) =>
+                  Rule.custom((value, context: any) => {
+                    if (context.parent?.linkType === 'service' && !value) {
+                      return 'Service reference is required when Link Type is Service'
+                    }
+                    return true
+                  }),
+              }),
+              defineField({
+                name: 'technology',
+                title: 'Technology',
+                type: 'reference',
+                to: [{type: 'technology'}],
+                hidden: ({parent}) => parent?.linkType !== 'technology',
+                validation: (Rule) =>
+                  Rule.custom((value, context: any) => {
+                    if (context.parent?.linkType === 'technology' && !value) {
+                      return 'Technology reference is required when Link Type is Technology'
                     }
                     return true
                   }),

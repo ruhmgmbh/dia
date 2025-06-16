@@ -43,7 +43,7 @@ const Project = ({
           alt={coverImage?.alt || ""}
           className="object-cover"
           fill
-          src={urlForImage(coverImage)?.fit("scale").url() as string}
+          src={urlForImage(coverImage)?.fit("crop").auto('format').url() as string}
         />
       </div>
 

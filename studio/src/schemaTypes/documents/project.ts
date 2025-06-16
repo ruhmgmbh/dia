@@ -86,8 +86,38 @@ export const project = defineType({
     defineField({
       name: 'client',
       title: 'Client',
-      type: 'string',
-      validation: (rule) => rule.required(),
+      type: 'reference',
+      to: [{ type: "client"}],
+      group: "content",
+    }),
+    defineField({
+      name: 'technologies',
+      title: 'Technologies',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'technology' }] }],
+      options: {
+        layout: 'tags'
+      },
+      group: "content",
+    }),
+    defineField({
+      name: 'networkPartners',
+      title: 'Network Partners',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'networkPartner' }] }],
+      options: {
+        layout: 'tags'
+      },
+      group: "content",
+    }),
+    defineField({
+      name: 'services',
+      title: 'Relevant Services',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'service' }] }],
+      options: {
+        layout: 'tags'
+      },
       group: "content",
     }),
     defineField({
