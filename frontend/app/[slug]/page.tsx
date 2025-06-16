@@ -44,9 +44,9 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const showIndex = page?.seo?.noIndex === false
 
   return {
-    title: page?.seo.title,
-    description: page?.seo.description,
-    keywords: page?.seo.keywords,
+    title: page?.seo?.title,
+    description: page?.seo?.description,
+    keywords: page?.seo?.keywords,
     robots: {
       index: showIndex,
       follow: showIndex,
