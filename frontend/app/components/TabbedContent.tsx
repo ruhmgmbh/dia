@@ -18,11 +18,11 @@ export default function TabbedContentBlock({ block }: TabbedContentProps) {
   const [currentTab, setCurrentTab] = useState<Tab>();
   const [activeIndex, setActiveIndex] = useState(0);
 
-  if (!block.tabs || block.tabs.length === 0) return null;
-
   useEffect(() => {
     setCurrentTab(block.tabs![activeIndex]);
   }, [activeIndex]);
+
+  if (!block.tabs || block.tabs.length === 0) return null;
 
   return (
     <div className="my-20">
