@@ -39,7 +39,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   });
 
 
-  const fallbackTitle = page?.name || page?.heading || 'Untitled Page';
+  const fallbackTitle = page?.title || page?.heading || 'Untitled Page';
 
   const showIndex = page?.seo?.noIndex === false
 
