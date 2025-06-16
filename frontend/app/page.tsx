@@ -22,6 +22,7 @@ export default async function Page() {
             <h1 className="text-h1 mb-5 lg:mb-12">
               Wir sind eine Agentur für interaktive Marken, Plattformen und
               Erlebnisse.
+              
             </h1>
             <p className="text-copy">
               Unsere Website befindet sich aktuell im Aufbau. Kontaktiere uns
