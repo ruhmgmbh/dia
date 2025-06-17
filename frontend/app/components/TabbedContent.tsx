@@ -20,7 +20,7 @@ export default function TabbedContentBlock({ block }: TabbedContentProps) {
 
   useEffect(() => {
     setCurrentTab(block.tabs![activeIndex]);
-  }, [activeIndex]);
+  }, [activeIndex, block.tabs]);
 
   if (!block.tabs || block.tabs.length === 0) return null;
 

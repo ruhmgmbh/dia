@@ -8,9 +8,9 @@ import PageBuilder from "@/app/components/PageBuilder";
 import TabbedContentBlock from "@/app/components/TabbedContent";
 import { TabbedContent } from "@/sanity.types";
 
-interface Props {
-  params: { slug: string };
-}
+type Props = {
+  params: Promise<{ slug: string }>;
+};
 
 export default async function ProjectPage(props: Props) {
   const params = await props.params;
