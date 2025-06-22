@@ -12,12 +12,19 @@ export const post = defineType({
   title: 'Post',
   icon: DocumentTextIcon,
   type: 'document',
+
+  groups: [
+    {name: 'content', title: 'Content'},
+    {name: 'seo', title: 'SEO'},
+  ],
+
   fields: [
     defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
       validation: (rule) => rule.required(),
+      group: "content",
     }),
     defineField({
       name: 'slug',
@@ -30,16 +37,19 @@ export const post = defineType({
         isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
       validation: (rule) => rule.required(),
+      group: "content",
     }),
     defineField({
       name: 'content',
       title: 'Content',
       type: 'blockContent',
+      group: "content",
     }),
     defineField({
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
+      group: "content",
     }),
     defineField({
       name: 'coverImage',
@@ -69,18 +79,21 @@ export const post = defineType({
         },
       ],
       validation: (rule) => rule.required(),
+      group: "content",
     }),
     defineField({
       name: 'date',
       title: 'Date',
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
+      group: "content",
     }),
     defineField({
       name: 'author',
       title: 'Author',
       type: 'reference',
       to: [{type: 'person'}],
+      group: "content",
     }),
   ],
   // List preview configuration. https://www.sanity.io/docs/previews-list-views

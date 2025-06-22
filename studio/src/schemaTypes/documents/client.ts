@@ -6,12 +6,19 @@ export const client = defineType({
   title: 'Client',
   icon: UsersIcon,
   type: 'document',
+
+  groups: [
+    { name: 'content', title: 'Content' },
+    { name: 'seo', title: 'SEO' },
+  ],
+
   fields: [
     defineField({
       name: 'name',
       title: 'Name',
       type: 'string',
       validation: (rule) => rule.required(),
+      group: "content",
     }),
     defineField({
       name: 'slug',
@@ -24,11 +31,13 @@ export const client = defineType({
         isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
       validation: (rule) => rule.required(),
+      group: "content",
     }),
     defineField({
       name: 'description',
       title: 'Description',
       type: 'text',
+      group: "content",
     }),
     defineField({
       name: 'coverImage',
@@ -57,11 +66,19 @@ export const client = defineType({
           },
         },
       ],
+      group: "content",
     }),
     defineField({
       name: 'linkWebsite',
       title: 'Link Website',
       type: 'url',
+      group: "content",
+    }),
+    defineField({
+      name: "seo",
+      title: "SEO Settings",
+      type: "seo",
+      group: "seo"
     }),
   ],
 })

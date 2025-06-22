@@ -11,18 +11,33 @@ export const person = defineType({
   title: 'Person',
   icon: UserIcon,
   type: 'document',
+
+  groups: [
+    {name: 'content', title: 'Content'},
+    {name: 'seo', title: 'SEO'},
+  ],
+
   fields: [
     defineField({
       name: 'firstName',
       title: 'First Name',
       type: 'string',
       validation: (rule) => rule.required(),
+      group: 'content',
     }),
     defineField({
       name: 'lastName',
       title: 'Last Name',
       type: 'string',
       validation: (rule) => rule.required(),
+      group: 'content',
+    }),
+    defineField({
+      name: 'email',
+      title: 'Email',
+      type: 'email',
+      validation: (rule) => rule.required(),
+      group: 'content',
     }),
     defineField({
       name: 'picture',
@@ -52,8 +67,16 @@ export const person = defineType({
         },
       },
       validation: (rule) => rule.required(),
+      group: 'content',
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO Settings',
+      type: 'seo',
+      group: 'seo',
     }),
   ],
+
   // List preview configuration. https://www.sanity.io/docs/previews-list-views
   preview: {
     select: {
