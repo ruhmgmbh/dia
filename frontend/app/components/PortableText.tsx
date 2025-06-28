@@ -15,6 +15,9 @@ import {
 } from "next-sanity";
 
 import ResolvedLink from "@/app/components/ResolvedLink";
+import Image from "next/image";
+import { urlForFile, urlForImage } from "@/sanity/lib/utils";
+import Video from "./Video";
 
 export default function CustomPortableText({
   className,
@@ -81,6 +84,50 @@ export default function CustomPortableText({
     marks: {
       link: ({ children, value: link }) => {
         return <ResolvedLink link={link}>{children}</ResolvedLink>;
+      },
+    },
+    types: {
+      media: ({ value }) => {
+        const caption = value.caption ? (
+          <figcaption className="text-copy-small mt-3 text-black">
+            {value.caption}
+          </figcaption>
+        ) : null;
+
+        if (value.mediaType === "image" && value.image) {
+          return (
+            <figure className="relative w-full my-4">
+              <Image
+                src={
+                  urlForImage(value.image)
+                    ?.fit("crop")
+                    .auto("format")
+                    .url() as string
+                }
+                width={800}
+                height={800}
+                sizes="(max-width: 1200px) 100vw, 50vw"
+                objectFit="cover"
+                className="h-auto w-full rounded-2xl"
+                alt={value.alt || ""}
+              />
+
+              {caption}
+            </figure>
+          );
+        }
+
+        if (value.mediaType === "video" && value.video) {
+          return (
+            <figure>
+              <Video media={value.video} className="my-4 rounded-2xl w-full" />
+
+              {caption}
+            </figure>
+          );
+        }
+
+        return null;
       },
     },
   };

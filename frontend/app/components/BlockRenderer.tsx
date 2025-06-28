@@ -3,7 +3,8 @@ import React from "react";
 import Cta from "@/app/components/Cta";
 import Info from "@/app/components/InfoSection";
 import { dataAttr } from "@/sanity/lib/utils";
-import TabbedContentBlock from "./TabbedContent";
+import TabbedContentBlock from "./TabbedContent/TabbedContent";
+import GalleryBlock from "./Gallery";
 
 type BlocksType = {
   [key: string]: React.FC<any>;
@@ -25,6 +26,7 @@ const Blocks: BlocksType = {
   callToAction: Cta,
   infoSection: Info,
   tabbedContent: TabbedContentBlock,
+  gallery: GalleryBlock,
 };
 
 /**

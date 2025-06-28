@@ -8,18 +8,18 @@ export const service = defineType({
   type: 'document',
 
   groups: [
-    { name: 'basicInfo', title: 'Basic Info' },
-    { name: 'content', title: 'Content' },
-    { name: 'seo', title: 'SEO' },
+    {name: 'basicInfo', title: 'Basic Info'},
+    {name: 'content', title: 'Content'},
+    {name: 'seo', title: 'SEO'},
   ],
 
   fields: [
     defineField({
-      name: 'name',
-      title: 'Name',
+      name: 'title',
+      title: 'Title',
       type: 'string',
       validation: (rule) => rule.required(),
-      group: "basicInfo",
+      group: 'basicInfo',
     }),
     defineField({
       name: 'slug',
@@ -32,67 +32,67 @@ export const service = defineType({
         isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
       validation: (rule) => rule.required(),
-      group: "basicInfo",
+      group: 'basicInfo',
     }),
     defineField({
-        name: 'description',
-        title: 'Description',
-        type: 'text',
-        group: "basicInfo",
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+      group: 'basicInfo',
     }),
     defineField({
-        name: 'coverImage',
-        title: 'Cover Image',
-        type: 'image',
-        options: {
-          hotspot: true,
-          aiAssist: {
-            imageDescriptionField: 'alt',
+      name: 'coverImage',
+      title: 'Cover Image',
+      type: 'image',
+      options: {
+        hotspot: true,
+        aiAssist: {
+          imageDescriptionField: 'alt',
+        },
+      },
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alternative text',
+          description: 'Important for SEO and accessibility.',
+          validation: (rule) => {
+            // Custom validation to ensure alt text is provided if the image is present. https://www.sanity.io/docs/validation
+            return rule.custom((alt, context) => {
+              if ((context.document?.coverImage as any)?.asset?._ref && !alt) {
+                return 'Required'
+              }
+              return true
+            })
           },
         },
-        fields: [
-          {
-            name: 'alt',
-            type: 'string',
-            title: 'Alternative text',
-            description: 'Important for SEO and accessibility.',
-            validation: (rule) => {
-              // Custom validation to ensure alt text is provided if the image is present. https://www.sanity.io/docs/validation
-              return rule.custom((alt, context) => {
-                if ((context.document?.coverImage as any)?.asset?._ref && !alt) {
-                  return 'Required'
-                }
-                return true
-              })
+      ],
+      group: 'basicInfo',
+    }),
+    defineField({
+      name: 'pageBuilder',
+      title: 'Page builder',
+      type: 'array',
+      of: [{type: 'callToAction'}, {type: 'infoSection'}],
+      options: {
+        insertMenu: {
+          // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/array-type#efb1fe03459d
+          views: [
+            {
+              name: 'grid',
+              previewImageUrl: (schemaTypeName) =>
+                `/static/page-builder-thumbnails/${schemaTypeName}.webp`,
             },
-          },
-        ],
-        group: "basicInfo",
-      }),
-      defineField({
-        name: 'pageBuilder',
-        title: 'Page builder',
-        type: 'array',
-        of: [{type: 'callToAction'}, {type: 'infoSection'}],
-        options: {
-          insertMenu: {
-            // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/array-type#efb1fe03459d
-            views: [
-              {
-                name: 'grid',
-                previewImageUrl: (schemaTypeName) =>
-                  `/static/page-builder-thumbnails/${schemaTypeName}.webp`,
-              },
-            ],
-          },
+          ],
         },
-        group: "content",
-      }),
-      defineField({
-        name: "seo",
-        title: "SEO Settings",
-        type: "seo",
-        group: "seo"
-      }),
+      },
+      group: 'content',
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO Settings',
+      type: 'seo',
+      group: 'seo',
+    }),
   ],
 })

@@ -69,11 +69,14 @@ export default function Navigation() {
   const hoverGrey = `hover:bg-black`;
 
   return (
-    <div className="bg-black text-white flex flex-col rounded-[5px] mt-6 shadow-nav fixed top-0" onMouseLeave={() => toggleMenu(false)}>
+    <div
+      className="bg-black text-white flex flex-col rounded-[5px] mt-6 shadow-nav fixed top-0"
+      onMouseLeave={() => toggleMenu(false)}
+    >
       <div className="flex justify-between p-2.5">
-        <div className={cn(linkStyles, hoverDefault)}>
-          <Link href="/">Dia</Link>
-        </div>
+        <Link href="/" className={cn(linkStyles, hoverDefault)}>
+          Dia
+        </Link>
         <div
           className={cn(
             linkStyles,
@@ -122,7 +125,11 @@ export default function Navigation() {
         <div className="flex flex-col bg-grey px-2.5 py-2.5">
           {secondLinks.map((link, i) => {
             return (
-              <Link key={i} href={link.url} className={cn(linkStyles, hoverGrey)}>
+              <Link
+                key={i}
+                href={link.url}
+                className={cn(linkStyles, hoverGrey)}
+              >
                 {link.label}
               </Link>
             );

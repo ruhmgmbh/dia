@@ -13,7 +13,7 @@
 :root {
   --max-width: 1600px;
   --padding-container: 0 2rem;
-  --padding-rightContainer: 0 10% 0 35%;
+  --padding-rightContainer: 0 18% 0 29%;
 
   @media (max-width: 640px) {
     --padding-container: 0 1rem;
@@ -74,7 +74,7 @@
   --text-h4: clamp(1.125rem, 1.0743rem + 0.2162vw, 1.25rem);
 
   --text-copy: clamp(1.25rem, 1.25rem + 0vw, 1.25rem);
-  --text-copy-small: clamp(1rem, 0.8571rem + 0.2976vw, 1.125rem);
+  --text-copy-small: clamp(0.875rem, 0.7736rem + 0.4324vw, 1.125rem);
   --text-quote: clamp(1.3125rem, 0.6696rem + 1.3393vw, 1.875rem);
 }
 
@@ -90,17 +90,29 @@
     margin-bottom: 0;
   }
 
-  h2,h3,h4, h5 {
+  h2,
+  h3,
+  h4,
+  h5 {
     margin-bottom: 20px;
   }
 
   p {
     margin: 20px 0;
   }
+
+  video {
+    margin: 0;
+  }
 }
 
 h1 {
   line-height: 100%;
+  font-weight: 600;
+}
+
+img {
+  overflow-clip-margin: unset;
 }
 
 p,
@@ -109,4 +121,10 @@ div,
 span {
   font-size: var(--text-copy);
   line-height: 140%;
+}
+
+.tabbedContent .rightContainer {
+  padding: unset;
+  max-width: unset;
+  margin: unset;
 }

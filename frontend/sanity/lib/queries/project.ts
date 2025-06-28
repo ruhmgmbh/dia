@@ -1,6 +1,16 @@
 import { defineQuery } from "next-sanity";
 import { linkFields, linkReference } from "../queries";
 
+const tabbedLinkReferenceFields = `
+  "referenceData": reference->{
+  _type,
+  title,
+  "slug": slug.current,
+  excerpt,
+  coverImage,
+}
+`;
+
 export const projectFields = /* groq */ `
   _id,
   _type,
@@ -27,8 +37,15 @@ export const projectFields = /* groq */ `
   },
   services[]->{
     _id,
-    name,
-    "slug": slug.current
+    title,
+    "slug": slug.current,
+  },
+  projects[]->{
+    _id,
+    title,
+    "slug": slug.current,
+    coverImage,
+    excerpt
   },
   seo {
     title,
@@ -43,6 +60,7 @@ export const projectFields = /* groq */ `
   },
   "pageBuilder": pageBuilder[]{
     ...,
+    "projectTitle": ^.title,
     _type == "callToAction" => {
       ${linkFields}
     },
@@ -54,7 +72,16 @@ export const projectFields = /* groq */ `
           ${linkReference}
         }
       }
-    }
+    },
+    _type == "tabbedContent" => {
+        tabs[]{
+          ...,
+          links[]{
+            ...,
+            ${tabbedLinkReferenceFields}
+          }
+        }
+      },
   }
 `;
 

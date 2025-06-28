@@ -88,7 +88,12 @@ export const project = defineType({
       name: 'pageBuilder',
       title: 'Page builder',
       type: 'array',
-      of: [{type: 'callToAction'}, {type: 'infoSection'}, {type: 'tabbedContent'}],
+      of: [
+        {type: 'callToAction'},
+        {type: 'infoSection'},
+        {type: 'tabbedContent'},
+        {type: 'gallery'},
+      ],
       options: {
         insertMenu: {
           // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/array-type#efb1fe03459d
@@ -125,6 +130,16 @@ export const project = defineType({
       title: 'Network Partners',
       type: 'array',
       of: [{type: 'reference', to: [{type: 'networkPartner'}]}],
+      options: {
+        layout: 'tags',
+      },
+      group: 'basicInfo',
+    }),
+    defineField({
+      name: 'projects',
+      title: 'Relevant Projects',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'project'}]}],
       options: {
         layout: 'tags',
       },

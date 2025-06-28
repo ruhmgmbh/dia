@@ -15,8 +15,16 @@ const postFields = /* groq */ `
 
 export const linkReference = /* groq */ `
   _type == "link" => {
-    "page": page->slug.current,
-    "post": post->slug.current
+    _type,
+    _key,
+    label,
+    externalUrl,
+    reference->{
+      _type,
+      _id,
+      title,
+      slug
+    }
   }
 `;
 
@@ -49,6 +57,7 @@ export const getPageQuery = defineQuery(`
           }
         }
       },
+
     },
   }
 `);

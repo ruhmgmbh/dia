@@ -10,7 +10,7 @@ type InfoProps = {
 
 export default function Info({ block }: InfoProps) {
   return (
-    <div className="my-12">
+    <div className="py-12 rightContainer">
       <div className="max-w-3xl">
         {block?.heading && (
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">

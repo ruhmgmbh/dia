@@ -16,7 +16,10 @@ export const tab = defineType({
       title: 'Content Type',
       type: 'string',
       options: {
-        list: [{title: 'Content (Image or Video with Text)', value: 'content'}],
+        list: [
+          {title: 'Content (Image or Video with Text)', value: 'content'},
+          {title: 'Link/Relationship', value: 'links'},
+        ],
         layout: 'radio',
       },
       validation: (Rule) => Rule.required(),
@@ -63,14 +66,7 @@ export const tab = defineType({
       type: 'array',
       title: 'Links',
       hidden: ({parent}) => parent?.contentType !== 'links',
-      of: [{type: 'link'}],
-    }),
-
-    defineField({
-      name: 'link',
-      type: 'string',
-      title: 'Link',
-      hidden: true,
+      of: [{type: 'tabLink'}],
     }),
   ],
 })

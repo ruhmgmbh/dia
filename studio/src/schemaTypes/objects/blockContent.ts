@@ -181,5 +181,11 @@ export const blockContent = defineType({
         ],
       },
     }),
+
+    defineArrayMember({
+      name: 'media',
+      title: 'Media',
+      type: 'media',
+    }),
   ],
 })

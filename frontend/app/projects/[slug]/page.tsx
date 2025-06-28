@@ -5,7 +5,10 @@ import { notFound } from "next/navigation"; // use from 'next/router' in Pages R
 import { sanityFetch } from "@/sanity/lib/live";
 import Tag from "@/app/components/Tag";
 import PageBuilder from "@/app/components/PageBuilder";
-import TabbedContentBlock from "@/app/components/TabbedContent";
+import TabbedContentBlock, {
+  CodeTabbedContenBlockProps,
+  CodeTabbedContentProps,
+} from "@/app/components/TabbedContent/TabbedContent";
 import { TabbedContent } from "@/sanity.types";
 
 type Props = {
@@ -22,54 +25,83 @@ export default async function ProjectPage(props: Props) {
     return notFound();
   }
 
-  // ToDo: Also Projects and Services (Rework!)
-
-  const clientContent = {
-    _type: "tab",
-    _key: "client",
-    title: "Kunde",
-    contentType: "content",
-    mediaType: "image",
-    image: project.client?.coverImage,
-    content: {
-      _type: "infoSection",
-      heading: project.client?.name || "",
-      content: [
-        {
-          _type: "block",
-          _key: "blockKey",
-          style: "normal",
-          children: [
-            {
-              _type: "span",
-              _key: "keyspan",
-              text: project.client?.description || "",
-              marks: [],
+  const projectFooter: CodeTabbedContenBlockProps = {
+    tabs: [
+      {
+        _type: "tab",
+        title: "Kunde",
+        contentType: "links",
+        _key: "clientTab",
+        links: [
+          {
+            _type: "tabLink",
+            _key: project.client?._id || "clientLink",
+            label: "mehr",
+            referenceData: {
+              _type: "client",
+              title: project.client?.name || "",
+              slug: { current: project.client?.slug || "" },
+              coverImage: project.client?.coverImage,
+              excerpt: project.client?.description || "",
             },
-          ],
-          markDefs: [],
-        },
-      ],
-    },
-    link: `/clients/${project.client?.slug}`,
-  };
+          },
+        ],
+      },
 
-  const tabbedFooter: TabbedContent = {
-    _type: "tabbedContent",
-    tabs: [clientContent as any],
+      {
+        _type: "tab",
+        title: "Services",
+        contentType: "links",
+        _key: "servicesTab",
+        links:
+          project.services?.map((service: any) => ({
+            _type: "tabLink",
+            _key: service._id,
+            label: service.title,
+            referenceData: {
+              _type: "service",
+              title: service.title,
+              slug: { current: service.slug },
+            },
+          })) || [],
+      },
+
+      {
+        _type: "tab",
+        title: "A propos...",
+        contentType: "links",
+        _key: "projectsTab",
+        links:
+          project.projects?.map((project: any) => ({
+            _type: "tabLink",
+            _key: project._id,
+            label: "mehr",
+            referenceData: {
+              _type: "project",
+              title: project.title || "",
+              slug: { current: project?.slug || "" },
+              coverImage: project.coverImage,
+              excerpt: project.excerpt || "",
+            },
+          })) || [],
+      },
+    ],
+  };
+  const filteredFooter = {
+    tabs: projectFooter.tabs.filter((tab) => tab.links && tab.links.length > 0),
   };
 
   return (
     <>
       <div className="relative bg-white">
-        <div className="relative rightContainer">
-          <header className="py-6 bg-white pt-30 xl:pt-32">
-            <div className="mb-5 lg:mb-12">
+        <div className="relative">
+          <header className="bg-white pt-30 xl:pt-32 rightContainer py-10 lg:py-20">
+            <div className="mb-5 lg:mb-12 gap-3 flex flex-wrap">
               {project.services &&
                 project.services.map((service: any) => {
                   return (
                     <Tag
-                      label={service.name}
+                      label={service.title}
                       link={`/services/${service.slug}`}
                       key={service._id}
                     />
@@ -81,11 +113,9 @@ export default async function ProjectPage(props: Props) {
             <p className="text-copy">{project.excerpt}</p>
           </header>
 
-          {/* Todo: Add Gallery Block */}
+          <PageBuilder page={project} key={project._id} />
 
-          <PageBuilder page={project} />
-
-          <TabbedContentBlock block={tabbedFooter} index={353} />
+          <TabbedContentBlock block={filteredFooter} index={353} />
         </div>
       </div>
     </>
