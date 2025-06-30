@@ -1360,6 +1360,11 @@ export type PostQueryResult = {
 export type PostPagesSlugsResult = Array<{
   slug: string;
 }>;
+// Variable: projectPagesSlugs
+// Query: *[_type == "project" && defined(slug.current)]  {"slug": slug.current}
+export type ProjectPagesSlugsResult = Array<{
+  slug: string;
+}>;
 // Variable: pagesSlugs
 // Query: *[_type == "page" && defined(slug.current)]  {"slug": slug.current}
 export type PagesSlugsResult = Array<{
@@ -2393,6 +2398,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"post\" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": MorePostsQueryResult;
     "\n  *[_type == \"post\" && slug.current == $slug] [0] {\n    content[]{\n    ...,\n    markDefs[]{\n      ...,\n      \n  _type == \"link\" => {\n    _type,\n    _key,\n    label,\n    externalUrl,\n    reference->{\n      _type,\n      _id,\n      title,\n      slug\n    }\n  }\n\n    }\n  },\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": PostQueryResult;
     "\n  *[_type == \"post\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PostPagesSlugsResult;
+    "\n  *[_type == \"project\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": ProjectPagesSlugsResult;
     "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;
     "\n  *[_id == $id][0]{\n    _id,\n    _type,\n    title,\n    \"slug\": slug.current,\n    excerpt,\n    coverImage\n  }\n": LinkReferenceQueryResult;
     "\n  *[_type == \"project\" && slug.current == $slug][0]{\n    \n  _id,\n  _type,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  content,\n  coverImage,\n  client->{\n    _id,\n    name,\n    coverImage,\n    description,\n    \"slug\": slug.current\n  },\n  technologies[]->{\n    _id,\n    name\n  },\n  networkPartners[]->{\n    _id,\n    name\n  },\n  services[]->{\n    _id,\n    title,\n    \"slug\": slug.current,\n  },\n  projects[]->{\n    _id,\n    title,\n    \"slug\": slug.current,\n    coverImage,\n    excerpt\n  },\n  seo {\n    title,\n    description,\n    keywords,\n    noIndex,\n    image {\n      asset->{\n        url\n      }\n    }\n  },\n  \"pageBuilder\": pageBuilder[]{\n    ...,\n    \"projectTitle\": ^.title,\n    _type == \"callToAction\" => {\n      \n  link {\n      ...,\n      \n  _type == \"link\" => {\n    _type,\n    _key,\n    label,\n    externalUrl,\n    reference->{\n      _type,\n      _id,\n      title,\n      slug\n    }\n  }\n\n      }\n\n    },\n    _type == \"infoSection\" => {\n      content[]{\n        ...,\n        markDefs[]{\n          ...,\n          \n  _type == \"link\" => {\n    _type,\n    _key,\n    label,\n    externalUrl,\n    reference->{\n      _type,\n      _id,\n      title,\n      slug\n    }\n  }\n\n        }\n      }\n    },\n    _type == \"tabbedContent\" => {\n        tabs[]{\n          ...,\n          links[]{\n            ...,\n            \n  \"referenceData\": reference->{\n  _type,\n  title,\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n}\n\n          }\n        }\n      },\n  }\n\n  }\n": ProjectQueryResult;

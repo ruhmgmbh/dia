@@ -16,7 +16,7 @@ import {
   type DocumentLocation,
 } from 'sanity/presentation'
 import {assist} from '@sanity/assist'
-import { media } from 'sanity-plugin-media'
+import {media} from 'sanity-plugin-media'
 
 // Environment variables for project configuration
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID || 'your-projectID'
@@ -48,7 +48,7 @@ function resolveHref(documentType?: string, slug?: string): string | undefined {
 // Main Sanity configuration
 export default defineConfig({
   name: 'default',
-  title: 'Dia Website',
+  title: 'Ruhm Website',
   projectId,
   dataset,
   plugins: [
@@ -125,7 +125,7 @@ export default defineConfig({
     unsplashImageAsset(),
     assist(),
     visionTool(),
-    media()
+    media(),
   ],
 
   // Schema configuration, imported from ./src/schemaTypes/index.ts

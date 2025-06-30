@@ -3,6 +3,9 @@ import { Suspense } from "react";
 import ResolvedLink from "@/app/components/ResolvedLink";
 import { CallToAction } from "@/sanity.types";
 
+import { tagStyle } from "./styles/tag";
+import { cn } from "@sglara/cn";
+
 type CtaProps = {
   block: CallToAction;
   index: number;
@@ -10,26 +13,29 @@ type CtaProps = {
 
 export default function CTA({ block }: CtaProps) {
   return (
-    <div className="container my-12">
-      <div className="bg-gray-50 border border-gray-100 rounded-2xl max-w-3xl">
-        <div className="px-12 py-12 flex flex-col gap-6">
-          <div className="max-w-xl flex flex-col gap-3">
-            <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl">
-              {block.heading}
-            </h2>
-            <p className="text-lg leading-8 text-gray-600">{block.text}</p>
-          </div>
-
-          <Suspense fallback={null}>
-            <div className="flex items-center gap-x-6 lg:mt-0 lg:flex-shrink-0">
-              <ResolvedLink
-                link={block.link}
-                className="rounded-full flex gap-2 mr-6 items-center bg-black hover:bg-blue focus:bg-blue py-3 px-6 text-white transition-colors duration-200"
-              >
-                {block.buttonText}
-              </ResolvedLink>
+    <div className="py-28 bg-black">
+      <div className="rightContainer">
+        <div className="rounded-2xl max-w-3xl">
+          <div className="flex flex-col gap-6">
+            <div className=" flex flex-col gap-3 text-white">
+              <h2 className="text-h3 font-bold mb-4">{block.heading}</h2>
+              <p className="text-copy">{block.text}</p>
             </div>
-          </Suspense>
+
+            <Suspense fallback={null}>
+              <div className="flex items-center mt-4">
+                <ResolvedLink
+                  link={block.link}
+                  className={cn(
+                    tagStyle,
+                    "text-white hover:bg-white hover:text-black"
+                  )}
+                >
+                  {block.buttonText}
+                </ResolvedLink>
+              </div>
+            </Suspense>
+          </div>
         </div>
       </div>
     </div>

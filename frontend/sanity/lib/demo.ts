@@ -2,7 +2,7 @@
  * Demo data used as placeholders and initial values for the blog
  */
 
-export const title = "Dia";
+export const title = "Ruhm";
 
 export const description = [
   {

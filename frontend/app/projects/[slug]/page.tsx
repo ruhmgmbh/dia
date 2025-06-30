@@ -10,6 +10,42 @@ import TabbedContentBlock, {
   CodeTabbedContentProps,
 } from "@/app/components/TabbedContent/TabbedContent";
 import { TabbedContent } from "@/sanity.types";
+import { projectPagesSlugs } from "@/sanity/lib/queries";
+import { Metadata, ResolvingMetadata } from "next";
+import { resolveOpenGraphImage } from "@/sanity/lib/utils";
+
+export async function generateStaticParams() {
+  const { data } = await sanityFetch({
+    query: projectPagesSlugs,
+    // Use the published perspective in generateStaticParams
+    perspective: "published",
+    stega: false,
+  });
+  return data;
+}
+
+export async function generateMetadata(
+  props: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const params = await props.params;
+  const { data: project } = await sanityFetch({
+    query: projectQuery,
+    params,
+    // Metadata should never contain stega
+    stega: false,
+  });
+  const previousImages = (await parent).openGraph?.images || [];
+  const ogImage = resolveOpenGraphImage(project?.coverImage);
+
+  return {
+    title: project?.title,
+    description: project?.excerpt,
+    openGraph: {
+      images: ogImage ? [ogImage, ...previousImages] : previousImages,
+    },
+  } satisfies Metadata;
+}
 
 type Props = {
   params: Promise<{ slug: string }>;

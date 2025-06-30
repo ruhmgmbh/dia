@@ -119,6 +119,11 @@ export const postPagesSlugs = defineQuery(`
   {"slug": slug.current}
 `);
 
+export const projectPagesSlugs = defineQuery(`
+  *[_type == "project" && defined(slug.current)]
+  {"slug": slug.current}
+`);
+
 export const pagesSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)]
   {"slug": slug.current}

@@ -75,7 +75,7 @@ export default function Navigation() {
     >
       <div className="flex justify-between p-2.5">
         <Link href="/" className={cn(linkStyles, hoverDefault)}>
-          Dia
+          Ruhm
         </Link>
         <div
           className={cn(

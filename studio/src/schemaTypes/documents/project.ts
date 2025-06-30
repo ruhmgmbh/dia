@@ -155,11 +155,5 @@ export const project = defineType({
       },
       group: 'basicInfo',
     }),
-    defineField({
-      name: 'seo',
-      title: 'SEO Settings',
-      type: 'seo',
-      group: 'seo',
-    }),
   ],
 })
