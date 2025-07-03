@@ -1,8 +1,8 @@
 import { defineQuery } from "next-sanity";
-import { linkFields, linkReference } from "../queries";
+import { linkFields, linkReference } from "./linkReference";
 
 const tabbedLinkReferenceFields = `
-  "referenceData": reference->{
+  "referenceData": service->{
   _type,
   title,
   "slug": slug.current,
@@ -62,14 +62,14 @@ export const projectFields = /* groq */ `
     ...,
     "projectTitle": ^.title,
     _type == "callToAction" => {
-      ${linkFields}
+        ${linkFields},
     },
     _type == "infoSection" => {
       content[]{
         ...,
         markDefs[]{
           ...,
-          ${linkReference}
+          ${linkFields}
         }
       }
     },
@@ -78,7 +78,9 @@ export const projectFields = /* groq */ `
           ...,
           links[]{
             ...,
-            ${tabbedLinkReferenceFields}
+            link {
+              ${linkReference}
+            }
           }
         }
       },

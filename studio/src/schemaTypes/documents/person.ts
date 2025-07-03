@@ -13,31 +13,45 @@ export const person = defineType({
   type: 'document',
 
   groups: [
+    {name: 'basicInfo', title: 'Basic Info'},
     {name: 'content', title: 'Content'},
     {name: 'seo', title: 'SEO'},
   ],
 
   fields: [
     defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      description: 'A slug is required for the person to show up in the preview',
+      options: {
+        source: 'firstName',
+        maxLength: 96,
+        isUnique: (value, context) => context.defaultIsUnique(value, context),
+      },
+      validation: (rule) => rule.required(),
+      group: 'basicInfo',
+    }),
+    defineField({
       name: 'firstName',
       title: 'First Name',
       type: 'string',
       validation: (rule) => rule.required(),
-      group: 'content',
+      group: 'basicInfo',
     }),
     defineField({
       name: 'lastName',
       title: 'Last Name',
       type: 'string',
       validation: (rule) => rule.required(),
-      group: 'content',
+      group: 'basicInfo',
     }),
     defineField({
       name: 'email',
       title: 'Email',
       type: 'email',
       validation: (rule) => rule.required(),
-      group: 'content',
+      group: 'basicInfo',
     }),
     defineField({
       name: 'picture',
@@ -67,7 +81,7 @@ export const person = defineType({
         },
       },
       validation: (rule) => rule.required(),
-      group: 'content',
+      group: 'basicInfo',
     }),
     defineField({
       name: 'seo',

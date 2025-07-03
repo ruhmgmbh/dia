@@ -8,8 +8,9 @@ export const client = defineType({
   type: 'document',
 
   groups: [
-    { name: 'content', title: 'Content' },
-    { name: 'seo', title: 'SEO' },
+    {name: 'basicInfo', title: 'Basic Info'},
+    {name: 'content', title: 'Content'},
+    {name: 'seo', title: 'SEO'},
   ],
 
   fields: [
@@ -18,26 +19,26 @@ export const client = defineType({
       title: 'Name',
       type: 'string',
       validation: (rule) => rule.required(),
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      description: 'A slug is required for the project to show up in the preview',
+      description: 'A slug is required for the client to show up in the preview',
       options: {
-        source: 'title',
+        source: 'name',
         maxLength: 96,
         isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
       validation: (rule) => rule.required(),
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
-      name: 'description',
-      title: 'Description',
+      name: 'excerpt',
+      title: 'Excerpt',
       type: 'text',
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
       name: 'coverImage',
@@ -66,19 +67,19 @@ export const client = defineType({
           },
         },
       ],
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
       name: 'linkWebsite',
       title: 'Link Website',
       type: 'url',
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
-      name: "seo",
-      title: "SEO Settings",
-      type: "seo",
-      group: "seo"
+      name: 'seo',
+      title: 'SEO Settings',
+      type: 'seo',
+      group: 'seo',
     }),
   ],
 })

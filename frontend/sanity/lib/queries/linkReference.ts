@@ -1,12 +1,68 @@
 import { defineQuery } from "next-sanity";
 
-export const linkReferenceQuery = defineQuery(`
-  *[_id == $id][0]{
-    _id,
+export const linkReference = defineQuery(`
+  _type == "link" => {
     _type,
-    title,
-    "slug": slug.current,
-    excerpt,
-    coverImage
+    _key,
+    label,
+    linkType,
+    externalUrl,
+    reference->{
+      _type,
+      _id,
+      title,
+      slug,
+    },
+    page->{
+      slug,  
+    },
+    post->{
+      slug,
+      title,
+      excerpt,
+      coverImage,
+    },
+    person->{
+      slug,
+      firstName,
+      picture,
+    },
+    client->{
+      slug,
+      name,
+      excerpt,
+      coverImage,
+    },
+    networkPartner->{
+      slug,
+      name,
+      excerpt,
+      logo
+    },
+    project->{
+      title,
+      slug,
+      excerpt,
+      coverImage,
+    },
+    service->{
+      slug,
+      title,
+      excerpt,
+      coverImage,
+    },
+    technology->{
+      slug,
+      name,
+      excerpt,
+      logo,
+    },
   }
 `);
+
+export const linkFields = /* groq */ `
+  link {
+      ...,
+      ${linkReference}
+      }
+`;

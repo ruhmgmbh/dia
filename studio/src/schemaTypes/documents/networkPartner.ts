@@ -8,6 +8,7 @@ export const networkPartner = defineType({
   type: 'document',
 
   groups: [
+    {name: 'basicInfo', title: 'Basic Info'},
     {name: 'content', title: 'Content'},
     {name: 'seo', title: 'SEO'},
   ],
@@ -15,16 +16,29 @@ export const networkPartner = defineType({
   fields: [
     defineField({
       name: 'name',
-      title: 'Name Partner',
+      title: 'Name',
       type: 'string',
       validation: (rule) => rule.required(),
-      group: 'content',
+      group: 'basicInfo',
     }),
     defineField({
-      name: 'description',
-      title: 'Description',
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      description: 'A slug is required for the network partner to show up in the preview',
+      options: {
+        source: 'name',
+        maxLength: 96,
+        isUnique: (value, context) => context.defaultIsUnique(value, context),
+      },
+      validation: (rule) => rule.required(),
+      group: 'basicInfo',
+    }),
+    defineField({
+      name: 'excerpt',
+      title: 'Excerpt',
       type: 'text',
-      group: 'content',
+      group: 'basicInfo',
     }),
     defineField({
       name: 'technologies',
@@ -34,13 +48,13 @@ export const networkPartner = defineType({
       options: {
         layout: 'tags',
       },
-      group: 'content',
+      group: 'basicInfo',
     }),
     defineField({
       name: 'linkWebsite',
       title: 'Link Website',
       type: 'url',
-      group: 'content',
+      group: 'basicInfo',
     }),
     defineField({
       name: 'logo',
@@ -69,7 +83,7 @@ export const networkPartner = defineType({
           },
         },
       ],
-      group: 'content',
+      group: 'basicInfo',
     }),
     defineField({
       name: 'seo',

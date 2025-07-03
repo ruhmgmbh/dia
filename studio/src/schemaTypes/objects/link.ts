@@ -28,6 +28,7 @@ export const link = defineType({
           {title: 'Network Partner', value: 'networkPartner'},
           {title: 'Project', value: 'project'},
           {title: 'Service', value: 'service'},
+          {title: 'Technology', value: 'technology'},
         ],
         layout: 'radio',
       },

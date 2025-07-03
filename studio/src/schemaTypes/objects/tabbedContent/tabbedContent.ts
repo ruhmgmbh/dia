@@ -1,9 +1,11 @@
+import {VersionsIcon} from '@sanity/icons'
 import {defineType, defineField} from 'sanity'
 
 export const tabbedContent = defineType({
   name: 'tabbedContent',
   type: 'object',
   title: 'Tabbed Content Block',
+  icon: VersionsIcon,
   fields: [
     defineField({
       name: 'title',

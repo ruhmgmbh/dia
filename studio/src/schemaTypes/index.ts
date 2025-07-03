@@ -17,6 +17,7 @@ import {tab} from './objects/tabbedContent/tab'
 import {tabLink} from './objects/tabbedContent/tabLink'
 import {media} from './objects/media'
 import {gallery} from './objects/gallery'
+import {pageBuilder} from './objects/pageBuilder'
 
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/schema-types
 
@@ -33,6 +34,7 @@ export const schemaTypes = [
   technology,
   person,
   // Objects
+  pageBuilder,
   tab,
   blockContent,
   tabbedContent,

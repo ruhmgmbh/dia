@@ -25,17 +25,24 @@ export const callToAction = defineType({
       name: 'heading',
       title: 'Heading',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+      description: 'When empty, Title of Reference is taken',
     }),
     defineField({
       name: 'text',
       title: 'Text',
       type: 'text',
+      description:
+        'When empty, Excerpt of Reference is taken (Attention: Not every post type has an excerpt field! Pls check before publishing)',
     }),
     defineField({
       name: 'buttonText',
       title: 'Button text',
       type: 'string',
+    }),
+    defineField({
+      name: 'hideImage',
+      title: 'Hide Image',
+      type: 'boolean',
     }),
     defineField({
       name: 'link',

@@ -8,6 +8,7 @@ import PageBuilder from "@/app/components/PageBuilder";
 import TabbedContentBlock, {
   CodeTabbedContenBlockProps,
   CodeTabbedContentProps,
+  TabbedContentProps,
 } from "@/app/components/TabbedContent/TabbedContent";
 import { TabbedContent } from "@/sanity.types";
 import { projectPagesSlugs } from "@/sanity/lib/queries";
@@ -61,70 +62,77 @@ export default async function ProjectPage(props: Props) {
     return notFound();
   }
 
-  const projectFooter: CodeTabbedContenBlockProps = {
-    tabs: [
-      {
-        _type: "tab",
-        title: "Kunde",
-        contentType: "links",
-        _key: "clientTab",
-        links: [
-          {
-            _type: "tabLink",
-            _key: project.client?._id || "clientLink",
-            label: "mehr",
-            referenceData: {
-              _type: "client",
-              title: project.client?.name || "",
-              slug: { current: project.client?.slug || "" },
-              coverImage: project.client?.coverImage,
-              excerpt: project.client?.description || "",
+  const projectFooter: TabbedContentProps = {
+    block: {
+      _type: "tabbedContent",
+      tabs: [
+        {
+          _type: "tab",
+          title: "Kunde",
+          contentType: "links",
+          _key: "clientTab",
+          links: [
+            {
+              _type: "tabLink",
+              _key: project.client?._id || "clientLink",
+              label: "mehr",
+              linkType: "client",
+              client: {
+                name: project.client?.name || "",
+                slug: { current: project.client?.slug || "" },
+                coverImage: project.client?.coverImage,
+                excerpt: project.client?.description || "",
+              },
             },
-          },
-        ],
-      },
+          ],
+        },
 
-      {
-        _type: "tab",
-        title: "Services",
-        contentType: "links",
-        _key: "servicesTab",
-        links:
-          project.services?.map((service: any) => ({
-            _type: "tabLink",
-            _key: service._id,
-            label: service.title,
-            referenceData: {
-              _type: "service",
-              title: service.title,
-              slug: { current: service.slug },
-            },
-          })) || [],
-      },
+        {
+          _type: "tab",
+          title: "Services",
+          contentType: "links",
+          _key: "servicesTab",
+          links:
+            project.services?.map((service: any) => ({
+              _type: "tabLink",
+              _key: service._id,
+              label: service.title,
+              linkType: "service",
 
-      {
-        _type: "tab",
-        title: "A propos...",
-        contentType: "links",
-        _key: "projectsTab",
-        links:
-          project.projects?.map((project: any) => ({
-            _type: "tabLink",
-            _key: project._id,
-            label: "mehr",
-            referenceData: {
-              _type: "project",
-              title: project.title || "",
-              slug: { current: project?.slug || "" },
-              coverImage: project.coverImage,
-              excerpt: project.excerpt || "",
-            },
-          })) || [],
-      },
-    ],
+              service: {
+                title: service.title,
+                slug: { current: service.slug },
+              },
+            })) || [],
+        },
+
+        {
+          _type: "tab",
+          title: "A propos...",
+          contentType: "links",
+          _key: "projectsTab",
+          links:
+            project.projects?.map((project: any) => ({
+              _type: "tabLink",
+              _key: project._id,
+              label: "mehr",
+              linkType: "project",
+
+              project: {
+                title: project.title,
+                excerpt: project.excerpt || "",
+                slug: { current: project?.slug || "" },
+                coverImage: project.coverImage,
+              },
+            })) || [],
+        },
+      ],
+    },
   };
   const filteredFooter = {
-    tabs: projectFooter.tabs.filter((tab) => tab.links && tab.links.length > 0),
+    tabs: projectFooter.block.tabs!.filter(
+      (tab) => tab.links && tab.links.length > 0
+    ),
   };
 
   return (
@@ -151,7 +159,7 @@ export default async function ProjectPage(props: Props) {
 
           <PageBuilder page={project} key={project._id} />
 
-          <TabbedContentBlock block={filteredFooter} index={353} />
+          {/* <TabbedContentBlock block={filteredFooter} index={785} /> */}
         </div>
       </div>
     </>

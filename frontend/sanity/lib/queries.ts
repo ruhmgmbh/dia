@@ -24,6 +24,9 @@ export const linkReference = /* groq */ `
       _id,
       title,
       slug
+    },
+    service->{
+    slug
     }
   }
 `;

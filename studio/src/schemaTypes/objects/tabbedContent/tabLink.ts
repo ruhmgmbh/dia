@@ -6,43 +6,84 @@ export const tabLink = defineType({
   title: 'Link or Reference',
   fields: [
     defineField({
-      name: 'externalUrl',
-      type: 'url',
-      title: 'External URL',
-    }),
-    defineField({
-      name: 'reference',
-      type: 'reference',
-      title: 'Internal Reference',
-      to: [
-        {type: 'page'},
-        {type: 'post'},
-        {type: 'client'},
-        {type: 'service'},
-        {type: 'technology'},
-        {type: 'person'},
-        {type: 'project'},
-        // Add any other linkable types here
-      ],
+      name: 'link',
+      type: 'link',
+      title: 'Links',
     }),
     defineField({
       name: 'label',
       type: 'string',
-      title: 'Label (optional)',
+      title: 'Button Label (optional)',
       description: 'Leave empty to use the title from the referenced content.',
     }),
   ],
   preview: {
     select: {
-      title: 'label',
-      pageSlug: 'reference.slug.current',
-      external: 'externalUrl',
+      label: 'label',
+      linkType: 'link.linkType',
+      page: 'link.page.slug',
+      post: 'link.post.title',
+      postMedia: 'link.post.coverImage',
+      person: 'link.person.firstName',
+      personMedia: 'link.post.picture',
+      client: 'link.client.name',
+      clientMedia: 'link.client.coverImage',
+      networkPartner: 'link.networkPartner.name',
+      networkPartnerMedia: 'link.networkPartner.logo',
+      project: 'link.project.title',
+      projectMedia: 'link.project.coverImage',
+      service: 'link.service.title',
+      serviceMedia: 'link.service.coverImage',
+      technology: 'link.technology.name',
+      technologyMedia: 'link.technology.logo',
     },
-    prepare(selection) {
-      const {title, pageSlug, external} = selection
+    prepare({
+      label,
+      linkType,
+      page,
+      post,
+      person,
+      client,
+      networkPartner,
+      project,
+      service,
+      technology,
+      postMedia,
+      personMedia,
+      clientMedia,
+      networkPartnerMedia,
+      projectMedia,
+      serviceMedia,
+      technologyMedia,
+    }) {
+      const titlesByType = {
+        page,
+        post,
+        person,
+        client,
+        networkPartner,
+        project,
+        service,
+        technology,
+      }
+
+      const mediaByType = {
+        post: postMedia,
+        person: personMedia,
+        client: clientMedia,
+        networkPartner: networkPartnerMedia,
+        project: projectMedia,
+        service: serviceMedia,
+        technology: technologyMedia,
+      }
+
+      const title = label || titlesByType[linkType] || 'Untitled'
+      const media = mediaByType[linkType] || undefined
+
       return {
-        title: title || pageSlug || external,
-        subtitle: pageSlug ? 'Internal reference' : 'External link',
+        title,
+        subtitle: linkType,
+        media,
       }
     },
   },

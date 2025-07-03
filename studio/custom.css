@@ -1,0 +1,3 @@
+[data-ui='Card'] [data-ui='Text'] {
+  text-transform: capitalize;
+}

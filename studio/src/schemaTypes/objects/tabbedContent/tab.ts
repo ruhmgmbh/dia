@@ -1,9 +1,11 @@
+import {DotIcon} from '@sanity/icons'
 import {defineType, defineField} from 'sanity'
 
 export const tab = defineType({
   name: 'tab',
   type: 'object',
   title: 'Tab',
+  icon: DotIcon,
   fields: [
     defineField({
       name: 'title',

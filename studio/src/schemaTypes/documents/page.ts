@@ -13,6 +13,7 @@ export const page = defineType({
   icon: DocumentIcon,
 
   groups: [
+    {name: 'basicInfo', title: 'Basic Info'},
     {name: 'content', title: 'Content'},
     {name: 'seo', title: 'SEO'},
   ],
@@ -23,32 +24,32 @@ export const page = defineType({
       title: 'Name',
       type: 'string',
       validation: (Rule) => Rule.required(),
-      group: 'content',
+      group: 'basicInfo',
     }),
-
     defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      validation: (Rule) => Rule.required(),
       options: {
         source: 'name',
         maxLength: 96,
+        isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
-      group: 'content',
+      validation: (rule) => rule.required(),
+      group: 'basicInfo',
     }),
     defineField({
       name: 'heading',
       title: 'Heading',
       type: 'string',
       validation: (Rule) => Rule.required(),
-      group: 'content',
+      group: 'basicInfo',
     }),
     defineField({
       name: 'subheading',
       title: 'Subheading',
       type: 'string',
-      group: 'content',
+      group: 'basicInfo',
     }),
     defineField({
       name: 'pageBuilder',

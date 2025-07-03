@@ -14,6 +14,7 @@ export const post = defineType({
   type: 'document',
 
   groups: [
+    {name: 'basicInfo', title: 'Basic Info'},
     {name: 'content', title: 'Content'},
     {name: 'seo', title: 'SEO'},
   ],
@@ -24,7 +25,7 @@ export const post = defineType({
       title: 'Title',
       type: 'string',
       validation: (rule) => rule.required(),
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
       name: 'slug',
@@ -37,19 +38,13 @@ export const post = defineType({
         isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
       validation: (rule) => rule.required(),
-      group: "content",
-    }),
-    defineField({
-      name: 'content',
-      title: 'Content',
-      type: 'blockContent',
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
       name: 'coverImage',
@@ -79,21 +74,27 @@ export const post = defineType({
         },
       ],
       validation: (rule) => rule.required(),
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
       name: 'date',
       title: 'Date',
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
-      group: "content",
+      group: 'basicInfo',
     }),
     defineField({
       name: 'author',
       title: 'Author',
       type: 'reference',
       to: [{type: 'person'}],
-      group: "content",
+      group: 'basicInfo',
+    }),
+    defineField({
+      name: 'content',
+      title: 'Content',
+      type: 'blockContent',
+      group: 'content',
     }),
   ],
   // List preview configuration. https://www.sanity.io/docs/previews-list-views

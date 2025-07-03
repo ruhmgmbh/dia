@@ -25,7 +25,7 @@ export const service = defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      description: 'A slug is required for the project to show up in the preview',
+      description: 'A slug is required for the service to show up in the preview',
       options: {
         source: 'title',
         maxLength: 96,
@@ -35,8 +35,8 @@ export const service = defineType({
       group: 'basicInfo',
     }),
     defineField({
-      name: 'description',
-      title: 'Description',
+      name: 'excerpt',
+      title: 'Excerpt',
       type: 'text',
       group: 'basicInfo',
     }),
@@ -72,20 +72,7 @@ export const service = defineType({
     defineField({
       name: 'pageBuilder',
       title: 'Page builder',
-      type: 'array',
-      of: [{type: 'callToAction'}, {type: 'infoSection'}],
-      options: {
-        insertMenu: {
-          // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/array-type#efb1fe03459d
-          views: [
-            {
-              name: 'grid',
-              previewImageUrl: (schemaTypeName) =>
-                `/static/page-builder-thumbnails/${schemaTypeName}.webp`,
-            },
-          ],
-        },
-      },
+      type: 'pageBuilder',
       group: 'content',
     }),
     defineField({

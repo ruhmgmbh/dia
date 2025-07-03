@@ -18,6 +18,8 @@ import {
 import {assist} from '@sanity/assist'
 import {media} from 'sanity-plugin-media'
 
+import './custom.css'
+
 // Environment variables for project configuration
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID || 'your-projectID'
 const dataset = process.env.SANITY_STUDIO_DATASET || 'production'

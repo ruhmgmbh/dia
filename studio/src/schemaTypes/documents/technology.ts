@@ -8,6 +8,7 @@ export const technology = defineType({
   type: 'document',
 
   groups: [
+    {name: 'basicInfo', title: 'BasicInfo'},
     {name: 'content', title: 'Content'},
     {name: 'seo', title: 'SEO'},
   ],
@@ -24,13 +25,26 @@ export const technology = defineType({
       title: 'Name',
       type: 'string',
       validation: (rule) => rule.required(),
-      group: 'content',
+      group: 'basicInfo',
     }),
     defineField({
-      name: 'description',
-      title: 'Description',
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      description: 'A slug is required for the technology to show up in the preview',
+      options: {
+        source: 'name',
+        maxLength: 96,
+        isUnique: (value, context) => context.defaultIsUnique(value, context),
+      },
+      validation: (rule) => rule.required(),
+      group: 'basicInfo',
+    }),
+    defineField({
+      name: 'excerpt',
+      title: 'Excerpt',
       type: 'text',
-      group: 'content',
+      group: 'basicInfo',
     }),
     defineField({
       name: 'logo',
@@ -59,7 +73,7 @@ export const technology = defineType({
           },
         },
       ],
-      group: 'content',
+      group: 'basicInfo',
     }),
     defineField({
       name: 'seo',

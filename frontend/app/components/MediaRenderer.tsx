@@ -8,6 +8,8 @@ export default function MediaRenderer({
   alt,
   imgSizes,
   priority = false,
+  mediaContain = false,
+  containBg,
   className,
 }: {
   type: "image" | "video";
@@ -15,10 +17,18 @@ export default function MediaRenderer({
   alt?: string;
   imgSizes?: string;
   priority?: boolean;
+  mediaContain?: boolean;
+  containBg?: string;
   className?: string;
 }) {
   return (
-    <div className={cn("relative rounded-2xl overflow-hidden", className)}>
+    <div
+      className={cn(
+        "relative rounded-2xl overflow-hidden",
+        `bg-${containBg}`,
+        className
+      )}
+    >
       {type == "video" && (
         <video
           playsInline
@@ -36,7 +46,7 @@ export default function MediaRenderer({
       {type == "image" && (
         <Image
           alt={alt ?? media.caption ?? ""}
-          className="object-cover"
+          className={mediaContain ? "object-contain p-10" : "object-cover"}
           fill
           sizes={imgSizes || "50vw"}
           priority={priority}

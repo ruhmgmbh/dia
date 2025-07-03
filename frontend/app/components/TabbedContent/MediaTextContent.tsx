@@ -5,12 +5,14 @@ import Info from "../InfoSection";
 import Link from "next/link";
 import Tag from "../Tag";
 import Video from "../Video";
+import { cn } from "@sglara/cn";
 
 type customContent = {
   title: string;
   desc?: string;
   link?: string;
   linkLabel?: string;
+  external?: boolean;
 };
 
 type MediaTextContentProps = {
@@ -18,6 +20,7 @@ type MediaTextContentProps = {
   media: any;
   mediaType: "image" | "video";
   contentType: "infoSection" | "custom";
+  mediaContain?: boolean;
   content: InfoSection | customContent;
 };
 
@@ -25,6 +28,7 @@ export default function MediaTextContent({
   index,
   media,
   mediaType,
+  mediaContain,
   contentType,
   content,
 }: MediaTextContentProps) {
@@ -36,13 +40,20 @@ export default function MediaTextContent({
     <div className="flex flex-col lg:flex-row gap-12 items-start lg:items-stretch w-full relative">
       <>
         {mediaType == "image" && media && (
-          <div className="relative w-full lg:w-2/4 rounded-2xl overflow-hidden h-64 md:h-[30rem] lg:h-auto">
+          <div
+            className={cn(
+              "relative w-full lg:w-2/4 rounded-2xl bg-offset-white overflow-hidden h-64 md:h-[30rem] lg:min-h-56 lg:h-auto"
+            )}
+          >
             <Image
               alt={""}
-              className="object-cover"
+              className={cn(
+                mediaContain ? "object-contain" : "object-cover",
+                mediaContain && "p-5"
+              )}
               fill
               src={
-                urlForImage(media)?.fit("crop").auto("format").url() as string
+                urlForImage(media)?.fit("scale").auto("format").url() as string
               }
             />
           </div>
@@ -74,7 +85,11 @@ export default function MediaTextContent({
         </div>
 
         {contentType == "custom" && custom && custom.link && (
-          <Link href={custom.link} className="absolute inset-0" />
+          <Link
+            href={custom.link}
+            className="absolute inset-0"
+            target={custom.external ? "_blank" : "_self"}
+          />
         )}
       </>
     </div>

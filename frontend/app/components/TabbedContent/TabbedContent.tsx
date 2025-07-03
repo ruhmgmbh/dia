@@ -1,14 +1,14 @@
 "use client";
-import { Tab, TabbedContent } from "@/sanity.types";
+import { Link, Tab, TabbedContent, TabLink } from "@/sanity.types";
 import { useEffect, useState } from "react";
 import { cn } from "@sglara/cn";
 import MediaTextContent from "./MediaTextContent";
 import SimpleTeaser from "./SimpleTeaser";
-import { SanityImage } from "@/app/types/SanityImage";
+import { linkField } from "@/app/types/LinkFields";
+import TeaserContent from "./TeaserContent";
 
-type TabbedContentProps = {
+export type TabbedContentProps = {
   block: TabbedContent;
-  index: number;
 };
 
 export type CodeTabbedContentProps = {
@@ -24,28 +24,12 @@ type CodeTabProps = {
   _type: "tab";
   _key: string;
   title: string;
-  links?: Array<tabbedLinkReference>;
-};
-
-type tabbedLinkReference = {
-  _key: string;
-  _type: "tabLink";
-  externalUrl?: string;
-  referenceData: {
-    _type: string;
-    title: string;
-    slug: { current: string };
-    excerpt?: string;
-    coverImage?: SanityImage | null;
-  };
-  label?: string;
+  links?: Array<Link & linkField>;
 };
 
 const linksWithImageTypes = ["person", "project", "client", "networkPartner"];
 
-export default function TabbedContentBlock({
-  block,
-}: TabbedContentProps | CodeTabbedContentProps) {
+export default function TabbedContentBlock({ block }: TabbedContentProps) {
   const [currentTab, setCurrentTab] = useState<Tab>();
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -97,51 +81,13 @@ export default function TabbedContentBlock({
           currentTab.contentType == "links" &&
           currentTab.links &&
           currentTab.links.length > 0 &&
-          currentTab.links.map((link) => {
-            let _link = link as tabbedLinkReference;
-
-            let hrefLink =
-              _link.externalUrl ??
-              "/" +
-                _link.referenceData._type +
-                "s/" +
-                (_link.referenceData.slug.current ?? _link.referenceData.slug);
-
-            if (
-              (link.reference || _link.referenceData.coverImage) &&
-              linksWithImageTypes.includes(_link.referenceData._type)
-            ) {
-              return (
-                <MediaTextContent
-                  index={activeIndex}
-                  contentType="custom"
-                  key={link._key}
-                  content={{
-                    title: _link.referenceData.title,
-                    desc: _link.referenceData.excerpt,
-                    link: hrefLink,
-                    linkLabel: _link.label ?? "mehr",
-                  }}
-                  mediaType="image"
-                  media={_link.referenceData.coverImage}
-                />
-              );
-            }
-
-            return (
-              <SimpleTeaser
-                label={_link.label ?? _link.referenceData.title ?? "mehr"}
-                link={hrefLink}
-                key={link._key}
-                external={_link.externalUrl ? true : false}
-                className={cn(
-                  currentTab.links?.length === 2
-                    ? "w-full sm:w-[calc(50%-24px)]"
-                    : "w-full sm:w-[calc(33.333%-24px)]"
-                )}
-              ></SimpleTeaser>
-            );
-          })}
+          currentTab.links.map((link) => (
+            <TeaserContent
+              link={link}
+              key={link._key}
+              numberOfLinks={currentTab.links!.length}
+            />
+          ))}
       </div>
     </div>
   );

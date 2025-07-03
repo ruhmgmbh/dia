@@ -49,8 +49,25 @@ export function resolveOpenGraphImage(image: any, width = 1200, height = 627) {
   return { url, alt: image?.alt as string, width, height };
 }
 
+type linkSlug = {
+  slug: {
+    current: string;
+  };
+};
+
+type groqLink = {
+  page: linkSlug;
+  post: linkSlug;
+  client: linkSlug;
+  person: linkSlug;
+  project: linkSlug;
+  service: linkSlug;
+  networkPartner: linkSlug;
+  technology: linkSlug;
+};
+
 // Depending on the type of link, we need to fetch the corresponding page, post, or URL.  Otherwise return null.
-export function linkResolver(link: Link | undefined) {
+export function linkResolver(link: (Link & groqLink) | undefined) {
   if (!link) return null;
 
   // If linkType is not set but href is, lets set linkType to "href".  This comes into play when pasting links into the portable text editor because a link type is not assumed.
@@ -62,12 +79,36 @@ export function linkResolver(link: Link | undefined) {
     case "href":
       return link.href || null;
     case "page":
-      if (link?.page && typeof link.page === "string") {
-        return `/${link.page}`;
+      if (link?.page && link?.page?.slug) {
+        return `/${link.page.slug.current}`;
       }
     case "post":
-      if (link?.post && typeof link.post === "string") {
-        return `/posts/${link.post}`;
+      if (link?.post && link?.post?.slug) {
+        return `/posts/${link.post.slug.current}`;
+      }
+    case "client":
+      if (link?.client && link?.post?.slug) {
+        return `/clients/${link.client.slug.current}`;
+      }
+    case "person":
+      if (link?.person && link?.post?.slug) {
+        return `/people/${link.person.slug.current}`;
+      }
+    case "project":
+      if (link?.project && link?.project?.slug) {
+        return `/projects/${link.project.slug.current}`;
+      }
+    case "service":
+      if (link?.service && link?.service?.slug) {
+        return `/services/${link.service.slug.current}`;
+      }
+    case "networkPartner":
+      if (link?.networkPartner && link?.networkPartner?.slug) {
+        return `/networkpartners/${link.networkPartner.slug.current}`;
+      }
+    case "technology":
+      if (link?.technology && link?.technology?.slug) {
+        return `/technologies/${link.technology.slug.current}`;
       }
     default:
       return null;
