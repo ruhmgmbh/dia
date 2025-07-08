@@ -3,9 +3,15 @@ import Head from "next/head";
 
 import PageBuilderPage from "@/app/components/PageBuilder";
 import { sanityFetch } from "@/sanity/lib/live";
-import { getPageMeta, getPageQuery, pagesSlugs } from "@/sanity/lib/queries";
+import {
+  getPageMeta,
+  getPageQuery,
+  pagesSlugs,
+} from "@/sanity/lib/queries/page";
 import { GetPageQueryResult } from "@/sanity.types";
 import { PageOnboarding } from "@/app/components/Onboarding";
+import { notFound } from "next/navigation";
+import PageBuilder from "@/app/components/PageBuilder";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -18,7 +24,6 @@ type Props = {
 export async function generateStaticParams() {
   const { data } = await sanityFetch({
     query: pagesSlugs,
-    // // Use the published perspective in generateStaticParams
     perspective: "published",
     stega: false,
   });
@@ -38,38 +43,35 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     stega: false,
   });
 
+  const fallbackTitle = page?.seo?.title || page?.heading || "Untitled Page";
 
-  const fallbackTitle = page?.title || page?.heading || 'Untitled Page';
-
-  const showIndex = page?.seo?.noIndex === false
+  const showIndex = page?.seo?.noIndex === false;
 
   return {
-    title: page?.seo?.title,
-    description: page?.seo?.description,
+    title: page?.seo?.title || page?.heading,
+    description: page?.seo?.description || page?.lead || fallbackTitle,
     keywords: page?.seo?.keywords,
     robots: {
       index: showIndex,
       follow: showIndex,
       nocache: false,
       googleBot: {
-      index: showIndex,
-      follow: showIndex,
-      }
+        index: showIndex,
+        follow: showIndex,
+      },
     },
     openGraph: {
-      title: page?.seo?.title || fallbackTitle,
-      description: page?.seo?.description || '',
+      title: page?.seo?.title || page?.heading || fallbackTitle,
+      description: page?.seo?.description || page?.lead || "",
       images: page?.seo?.image?.asset?.url
         ? [{ url: page.seo.image.asset.url }]
         : [],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: page?.seo?.title || fallbackTitle,
-      description: page?.seo?.description || '',
-      images: page?.seo?.image?.asset?.url
-        ? [page.seo.image.asset.url]
-        : [],
+      description: page?.seo?.description || "",
+      images: page?.seo?.image?.asset?.url ? [page.seo.image.asset.url] : [],
     },
   } satisfies Metadata;
 }
@@ -81,33 +83,21 @@ export default async function Page(props: Props) {
   ]);
 
   if (!page?._id) {
-    return (
-      <div className="py-40">
-        <PageOnboarding />
-      </div>
-    );
+    return notFound();
   }
 
   return (
-    <div className="my-12 lg:my-24">
-      <Head>
-        <title>{page.heading}</title>
-      </Head>
-      <div className="">
-        <div className="container">
-          <div className="pb-6 border-b border-gray-100">
-            <div className="max-w-3xl">
-              <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-7xl">
-                {page.heading}
-              </h2>
-              <p className="mt-4 text-base lg:text-lg leading-relaxed text-gray-600 uppercase font-light">
-                {page.subheading}
-              </p>
-            </div>
-          </div>
+    <>
+      <div className="relative bg-white">
+        <div className="relative">
+          <header className="bg-white pt-30 xl:pt-32 rightContainer py-10 lg:py-20">
+            <h1 className="text-h1 mb-5 lg:mb-12">{page.heading}</h1>
+            <p className="text-copy">{page.lead}</p>
+          </header>
+
+          {page.pageBuilder && <PageBuilder page={page} />}
         </div>
       </div>
-      <PageBuilderPage page={page} />
-    </div>
+    </>
   );
 }

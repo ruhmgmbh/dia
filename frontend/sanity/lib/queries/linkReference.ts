@@ -1,7 +1,6 @@
 import { defineQuery } from "next-sanity";
 
-export const linkReference = defineQuery(`
-  _type == "link" => {
+export const linkReference = `
     _type,
     _key,
     label,
@@ -57,8 +56,7 @@ export const linkReference = defineQuery(`
       excerpt,
       logo,
     },
-  }
-`);
+`;
 
 export const linkFields = /* groq */ `
   link {

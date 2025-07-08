@@ -105,8 +105,8 @@ export default {
               blockquote: {
                 fontSize: "var(--copy-quote)",
                 lineHeight: "120%",
-                fontWeight: "400"
-              }
+                fontWeight: "400",
+              },
             },
           },
         },

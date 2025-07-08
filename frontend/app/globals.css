@@ -10,6 +10,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "RUHM Brush";
+  src: url("../assets/font/RuhmBrush.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --max-width: 1600px;
   --padding-container: 0 2rem;
@@ -65,8 +72,11 @@
   --color-grey: #212121;
   --color-offset-white: #f3f3f3;
 
+  --color-ruhm-red: #ce2424;
+  --color-ruhm-khaki: #e2dcc7;
+
   /* Fonts */
-  --font-display: "greedStandard";
+  --font-display: "ruhmBrush";
 
   /* Typography */
   --text-h1: clamp(2.25rem, 0.8818rem + 5.8378vw, 5.625rem);
@@ -110,6 +120,15 @@
 h1 {
   line-height: 100%;
   font-weight: 600;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+blockquote {
+  font-family: "Ruhm Brush";
 }
 
 img {

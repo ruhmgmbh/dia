@@ -39,7 +39,9 @@ export default function Avatar({ person, date, small = false }: Props) {
       )}
       <div className="flex flex-col">
         {firstName && lastName && (
-          <div className={`font-bold ${small ? "text-sm" : ""}`}>
+          <div
+            className={`font-bold ${small ? "text-sm" : ""} hover:underline`}
+          >
             {firstName} {lastName}
           </div>
         )}

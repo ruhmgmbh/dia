@@ -10,7 +10,6 @@ export const client = defineType({
   groups: [
     {name: 'basicInfo', title: 'Basic Info'},
     {name: 'content', title: 'Content'},
-    {name: 'seo', title: 'SEO'},
   ],
 
   fields: [
@@ -38,6 +37,12 @@ export const client = defineType({
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
+      group: 'basicInfo',
+    }),
+    defineField({
+      name: 'linkWebsite',
+      title: 'Link Website',
+      type: 'url',
       group: 'basicInfo',
     }),
     defineField({
@@ -70,16 +75,10 @@ export const client = defineType({
       group: 'basicInfo',
     }),
     defineField({
-      name: 'linkWebsite',
-      title: 'Link Website',
-      type: 'url',
-      group: 'basicInfo',
-    }),
-    defineField({
-      name: 'seo',
-      title: 'SEO Settings',
-      type: 'seo',
-      group: 'seo',
+      name: 'pageBuilder',
+      title: 'Page builder',
+      type: 'pageBuilder',
+      group: 'content',
     }),
   ],
 })

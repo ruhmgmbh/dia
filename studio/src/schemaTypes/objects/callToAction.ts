@@ -1,5 +1,7 @@
 import {defineField, defineType} from 'sanity'
 import {BulbOutlineIcon} from '@sanity/icons'
+import {capitalizeText} from '../../_helpers/textFunctions'
+import {linkReferencePreview} from '../../_helpers/preview_types/linkReference'
 
 /**
  * Call to action schema object.  Objects are reusable schema structures document.
@@ -11,16 +13,12 @@ export const callToAction = defineType({
   title: 'Call to Action',
   type: 'object',
   icon: BulbOutlineIcon,
-  validation: (Rule) =>
-    // This is a custom validation rule that requires both 'buttonText' and 'link' to be set, or neither to be set
-    Rule.custom((fields) => {
-      const {buttonText, link} = fields || {}
-      if ((buttonText && link) || (!buttonText && !link)) {
-        return true
-      }
-      return 'Both Button text and Button link must be set, or both must be empty'
-    }),
   fields: [
+    defineField({
+      name: 'link',
+      title: 'Button link',
+      type: 'link',
+    }),
     defineField({
       name: 'heading',
       title: 'Heading',
@@ -44,22 +42,16 @@ export const callToAction = defineType({
       title: 'Hide Image',
       type: 'boolean',
     }),
-    defineField({
-      name: 'link',
-      title: 'Button link',
-      type: 'link',
-    }),
   ],
   preview: {
-    select: {
-      title: 'heading',
-    },
+    select: linkReferencePreview.select,
     prepare(selection) {
-      const {title} = selection
+      const base = linkReferencePreview.prepare!(selection)
 
       return {
-        title: title,
-        subtitle: 'Call to Action',
+        ...base,
+        title: `Call to Action`,
+        subtitle: `${base.title} | ${base.subtitle}`,
       }
     },
   },

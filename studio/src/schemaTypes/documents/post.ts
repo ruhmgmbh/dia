@@ -16,7 +16,6 @@ export const post = defineType({
   groups: [
     {name: 'basicInfo', title: 'Basic Info'},
     {name: 'content', title: 'Content'},
-    {name: 'seo', title: 'SEO'},
   ],
 
   fields: [
@@ -91,9 +90,9 @@ export const post = defineType({
       group: 'basicInfo',
     }),
     defineField({
-      name: 'content',
-      title: 'Content',
-      type: 'blockContent',
+      name: 'pageBuilder',
+      title: 'Page builder',
+      type: 'pageBuilder',
       group: 'content',
     }),
   ],

@@ -15,7 +15,6 @@ export const person = defineType({
   groups: [
     {name: 'basicInfo', title: 'Basic Info'},
     {name: 'content', title: 'Content'},
-    {name: 'seo', title: 'SEO'},
   ],
 
   fields: [
@@ -54,6 +53,12 @@ export const person = defineType({
       group: 'basicInfo',
     }),
     defineField({
+      name: 'excerpt',
+      title: 'Excerpt',
+      type: 'text',
+      group: 'basicInfo',
+    }),
+    defineField({
       name: 'picture',
       title: 'Picture',
       type: 'image',
@@ -84,10 +89,10 @@ export const person = defineType({
       group: 'basicInfo',
     }),
     defineField({
-      name: 'seo',
-      title: 'SEO Settings',
-      type: 'seo',
-      group: 'seo',
+      name: 'pageBuilder',
+      title: 'Page builder',
+      type: 'pageBuilder',
+      group: 'content',
     }),
   ],
 

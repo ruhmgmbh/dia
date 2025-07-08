@@ -8,9 +8,8 @@ export const technology = defineType({
   type: 'document',
 
   groups: [
-    {name: 'basicInfo', title: 'BasicInfo'},
+    {name: 'basicInfo', title: 'Basic Info'},
     {name: 'content', title: 'Content'},
-    {name: 'seo', title: 'SEO'},
   ],
 
   preview: {
@@ -74,12 +73,6 @@ export const technology = defineType({
         },
       ],
       group: 'basicInfo',
-    }),
-    defineField({
-      name: 'seo',
-      title: 'SEO Settings',
-      type: 'seo',
-      group: 'seo',
     }),
   ],
 })

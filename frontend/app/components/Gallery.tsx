@@ -92,7 +92,7 @@ export default function GalleryBlock({ block }: GalleryProps) {
                 )}
                 onClick={() => setShowGallery(false)}
               >
-                Gallerie schließen
+                Galerie schließen
               </button>
             </header>
 

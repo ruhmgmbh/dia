@@ -4,6 +4,9 @@ import { useState } from "react";
 import { cn } from "@sglara/cn";
 import Link from "next/link";
 
+import Logo from "@/assets/logo/logo.svg";
+import Menu from "@/assets/icons/menu.svg";
+
 interface link {
   label: string;
   url: string;
@@ -64,18 +67,18 @@ const socials: link[] = [
 export default function Navigation() {
   const [menuOpen, toggleMenu] = useState(false);
 
-  const linkStyles = `px-3.5 py-2.5`;
+  const linkStyles = `px-3.5 py-2.5 rounded-[3px]`;
   const hoverDefault = `hover:bg-grey`;
   const hoverGrey = `hover:bg-black`;
 
   return (
     <div
-      className="bg-black text-white flex flex-col rounded-[5px] mt-6 shadow-nav fixed top-0"
+      className="bg-black text-ruhm-khaki flex flex-col rounded-[5px] mt-6 shadow-nav fixed top-0"
       onMouseLeave={() => toggleMenu(false)}
     >
       <div className="flex justify-between p-2.5">
         <Link href="/" className={cn(linkStyles, hoverDefault)}>
-          Ruhm
+          <Logo width={45} height={45} className="fill-ruhm-khaki" />
         </Link>
         <div
           className={cn(
@@ -85,7 +88,11 @@ export default function Navigation() {
           )}
           onClick={() => toggleMenu(!menuOpen)}
         >
-          <MenuIcon className="w-5"></MenuIcon>
+          <MenuIcon
+            width={24}
+            height={24}
+            className="fill-ruhm-khaki"
+          ></MenuIcon>
         </div>
       </div>
 
@@ -122,7 +129,7 @@ export default function Navigation() {
           </div>
         </div>
 
-        <div className="flex flex-col bg-grey px-2.5 py-2.5">
+        <div className="flex flex-col bg-ruhm-red px-2.5 py-2.5">
           {secondLinks.map((link, i) => {
             return (
               <Link

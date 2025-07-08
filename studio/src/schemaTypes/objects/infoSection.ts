@@ -8,16 +8,6 @@ export const infoSection = defineType({
   icon: TextIcon,
   fields: [
     defineField({
-      name: 'heading',
-      title: 'Heading',
-      type: 'string',
-    }),
-    defineField({
-      name: 'subheading',
-      title: 'Subheading',
-      type: 'string',
-    }),
-    defineField({
       name: 'content',
       title: 'Content',
       type: 'blockContent',
@@ -26,12 +16,17 @@ export const infoSection = defineType({
   preview: {
     select: {
       title: 'heading',
-      subtitle: 'subheading',
+      content: 'content',
     },
-    prepare({title}) {
+    prepare({title, content}) {
+      // Extract the first text span from the first block
+      const firstBlock = content?.[0]
+      const firstSpan = firstBlock?.children?.find((child: any) => child._type === 'span')
+      const firstText = firstSpan?.text || ''
+
       return {
-        title: title || 'Untitled Info Section',
-        subtitle: 'Info Section',
+        title: title || 'Info Section',
+        subtitle: firstText ? firstText.slice(0, 80) : 'No content',
       }
     },
   },

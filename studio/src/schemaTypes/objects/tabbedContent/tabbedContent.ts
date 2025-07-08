@@ -19,4 +19,15 @@ export const tabbedContent = defineType({
       of: [{type: 'tab'}],
     }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+    },
+    prepare(selection) {
+      return {
+        title: 'TabbedContent',
+        subtitle: selection.title,
+      }
+    },
+  },
 })

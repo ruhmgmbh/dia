@@ -10,7 +10,6 @@ export const service = defineType({
   groups: [
     {name: 'basicInfo', title: 'Basic Info'},
     {name: 'content', title: 'Content'},
-    {name: 'seo', title: 'SEO'},
   ],
 
   fields: [
@@ -74,12 +73,6 @@ export const service = defineType({
       title: 'Page builder',
       type: 'pageBuilder',
       group: 'content',
-    }),
-    defineField({
-      name: 'seo',
-      title: 'SEO Settings',
-      type: 'seo',
-      group: 'seo',
     }),
   ],
 })

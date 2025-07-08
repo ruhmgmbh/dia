@@ -1,17 +1,7 @@
 import { defineQuery } from "next-sanity";
-import { linkFields, linkReference } from "./linkReference";
+import { pageBuilderFields } from "./pageBuilder";
 
-const tabbedLinkReferenceFields = `
-  "referenceData": service->{
-  _type,
-  title,
-  "slug": slug.current,
-  excerpt,
-  coverImage,
-}
-`;
-
-export const projectFields = /* groq */ `
+const projectFields = /* groq */ `
   _id,
   _type,
   "status": select(_originalId in path("drafts.**") => "draft", "published"),
@@ -58,38 +48,26 @@ export const projectFields = /* groq */ `
       }
     }
   },
-  "pageBuilder": pageBuilder[]{
-    ...,
-    "projectTitle": ^.title,
-    _type == "callToAction" => {
-        ${linkFields},
-    },
-    _type == "infoSection" => {
-      content[]{
-        ...,
-        markDefs[]{
-          ...,
-          ${linkFields}
-        }
-      }
-    },
-    _type == "tabbedContent" => {
-        tabs[]{
-          ...,
-          links[]{
-            ...,
-            link {
-              ${linkReference}
-            }
-          }
-        }
-      },
-  }
+  ${pageBuilderFields}
+`;
+
+const projectMetaFields = `
+  _id,
+  _type,
+  title,
+  excerpt,
+  coverImage
 `;
 
 export const projectQuery = defineQuery(`
   *[_type == "project" && slug.current == $slug][0]{
     ${projectFields}
+  }
+`);
+
+export const projectMetaQuery = defineQuery(`
+  *[_type == "project" && slug.current == $slug][0]{
+    ${projectMetaFields}
   }
 `);
 
