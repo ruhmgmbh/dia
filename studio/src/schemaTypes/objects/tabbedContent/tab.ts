@@ -1,5 +1,6 @@
-import {DotIcon} from '@sanity/icons'
+import {DotIcon, LinkIcon, VideoIcon} from '@sanity/icons'
 import {defineType, defineField} from 'sanity'
+import {InfoBlockPreviewText} from '../../../_helpers/InfoBlockPreviewText'
 
 export const tab = defineType({
   name: 'tab',
@@ -27,35 +28,10 @@ export const tab = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'mediaType',
-      type: 'string',
-      title: 'Media Type',
-      options: {
-        list: [
-          {title: 'Image', value: 'image'},
-          {title: 'Video', value: 'video'},
-        ],
-        layout: 'radio',
-      },
+      name: 'media',
+      title: 'Media',
+      type: 'media',
       hidden: ({parent}) => parent?.contentType !== 'content',
-    }),
-    defineField({
-      name: 'image',
-      type: 'image',
-      title: 'Image',
-      options: {
-        hotspot: true,
-      },
-      hidden: ({parent}) => parent?.contentType !== 'content' || parent?.mediaType !== 'image',
-    }),
-    defineField({
-      name: 'video',
-      type: 'file',
-      title: 'Video File',
-      options: {
-        accept: 'video/*',
-      },
-      hidden: ({parent}) => parent?.contentType !== 'content' || parent?.mediaType !== 'video',
     }),
     defineField({
       name: 'content',
@@ -71,4 +47,35 @@ export const tab = defineType({
       of: [{type: 'tabLink'}],
     }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+      contentType: 'contentType',
+      content: 'content',
+      media: 'media',
+    },
+    prepare({title, contentType, content, media}) {
+      let subtitle: string = ''
+      if (contentType == 'content' && content?.content) {
+        subtitle = InfoBlockPreviewText(content.content)
+      }
+
+      let mediaPreview: any = DotIcon
+      if (contentType == 'content') {
+        if (media.mediaType == 'image' && media.image) {
+          mediaPreview = media.image
+        } else if (media.mediaType == 'video') {
+          mediaPreview = VideoIcon
+        }
+      } else {
+        mediaPreview = LinkIcon
+      }
+
+      return {
+        title: title,
+        subtitle: subtitle ?? '',
+        media: mediaPreview,
+      }
+    },
+  },
 })

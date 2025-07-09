@@ -48,7 +48,6 @@ export async function generateMetadata(
     // Metadata should never contain stega
     stega: false,
   });
-  console.log(post);
   const previousImages = (await parent).openGraph?.images || [];
   const ogImage = resolveOpenGraphImage(post?.coverImage);
 

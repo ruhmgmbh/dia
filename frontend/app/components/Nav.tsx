@@ -52,15 +52,15 @@ const secondLinks: link[] = [
 const socials: link[] = [
   {
     label: "📷 Instagram",
-    url: "https://instagram.com/@dia",
+    url: "https://instagram.com/ruhmgmbh",
   },
   {
     label: "‍💻 Call buchen",
-    url: "https://callbuchen",
+    url: "https://meet.brevo.com/ruhm",
   },
   {
-    label: "📨 hi@dia.at",
-    url: "mailto:hi@dia.at",
+    label: "📨 office@ruhm.at",
+    url: "mailto:office@ruhm.at",
   },
 ];
 

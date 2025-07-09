@@ -64,8 +64,6 @@ export default async function ServicePage(props: Props) {
     return notFound();
   }
 
-  console.log(client);
-
   return (
     <>
       <div className="relative bg-white">

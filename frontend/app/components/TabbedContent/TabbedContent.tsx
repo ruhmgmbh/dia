@@ -68,11 +68,11 @@ export default function TabbedContentBlock({ block }: TabbedContentProps) {
             index={activeIndex}
             contentType="infoSection"
             content={currentTab.content!}
-            mediaType={currentTab.mediaType!}
+            mediaType={currentTab.media?.mediaType!}
             media={
-              currentTab.mediaType == "image"
-                ? currentTab.image
-                : currentTab.video
+              currentTab.media?.mediaType == "image"
+                ? currentTab.media?.image
+                : currentTab.media?.video
             }
           />
         )}

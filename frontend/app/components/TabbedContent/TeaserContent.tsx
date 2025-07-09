@@ -24,7 +24,6 @@ export default function TeaserContent({
   let href: string | null;
 
   let _link = (link as GroqLink).link;
-  console.log(_link);
 
   switch (_link.linkType) {
     case "post":

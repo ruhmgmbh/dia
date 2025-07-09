@@ -1,9 +1,11 @@
 // schemas/objects/media.ts
+import {ImageIcon, VideoIcon} from '@sanity/icons'
 import {defineField, defineType} from 'sanity'
 
 export const media = defineType({
   name: 'media',
   type: 'object',
+  icon: ImageIcon,
   title: 'Media',
   fields: [
     defineField({
@@ -19,14 +21,10 @@ export const media = defineType({
       },
     }),
     defineField({
+      type: 'imageWithMetadata',
       name: 'image',
       title: 'Image',
-      type: 'image',
       hidden: ({parent}) => parent?.mediaType !== 'image',
-      options: {
-        hotspot: true,
-        metadata: ['palette', 'lqip'],
-      },
     }),
     defineField({
       name: 'video',
@@ -41,6 +39,25 @@ export const media = defineType({
       name: 'caption',
       title: 'Caption text',
       type: 'string',
+      hidden: ({parent}) => parent?.mediaType !== 'video',
     }),
   ],
+
+  preview: {
+    select: {
+      media: 'image',
+      mediaType: 'mediaType',
+      altImg: 'image.asset.altText',
+      captionVideo: 'caption',
+    },
+    prepare({media, mediaType, altImg, captionVideo}) {
+      const heading = mediaType == 'image' ? altImg : captionVideo
+
+      return {
+        title: heading,
+        subtitle: mediaType,
+        media: mediaType == 'image' ? media : VideoIcon,
+      }
+    },
+  },
 })

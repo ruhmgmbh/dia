@@ -1,4 +1,4 @@
-import { defineQuery } from "next-sanity";
+import { mediaFields } from "./media";
 
 export const linkReference = `
     _type,
@@ -19,42 +19,56 @@ export const linkReference = `
       slug,
       title,
       excerpt,
-      coverImage,
+      coverImage {
+        ${mediaFields}
+      },
     },
     person->{
       slug,
       firstName,
-      picture,
+      picture {
+        ${mediaFields}
+      },
     },
     client->{
       slug,
       name,
       excerpt,
-      coverImage,
+      coverImage {
+        ${mediaFields}
+      },
     },
     networkPartner->{
       slug,
       name,
       excerpt,
-      logo
+      logo {
+        ${mediaFields}
+      },
     },
     project->{
       title,
       slug,
       excerpt,
-      coverImage,
+      coverImage {
+        ${mediaFields}
+      },
     },
     service->{
       slug,
       title,
       excerpt,
-      coverImage,
+      coverImage {
+        ${mediaFields}
+      },
     },
     technology->{
       slug,
       name,
       excerpt,
-      logo,
+      logo {
+        ${mediaFields}
+      },
     },
 `;
 

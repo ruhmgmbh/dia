@@ -1,19 +1,23 @@
 import { defineQuery } from "next-sanity";
 import { pageBuilderFields } from "./pageBuilder";
+import { mediaFields } from "./media";
 
 const projectFields = /* groq */ `
   _id,
   _type,
-  "status": select(_originalId in path("drafts.**") => "draft", "published"),
   "title": coalesce(title, "Untitled"),
   "slug": slug.current,
   excerpt,
   content,
-  coverImage,
+  coverImage {
+    ${mediaFields}
+  },
   client->{
     _id,
     name,
-    coverImage,
+    coverImage {
+    ${mediaFields}
+  },
     description,
     "slug": slug.current
   },
@@ -34,7 +38,9 @@ const projectFields = /* groq */ `
     _id,
     title,
     "slug": slug.current,
-    coverImage,
+    coverImage {
+    ${mediaFields}
+  },
     excerpt
   },
   seo {
@@ -49,6 +55,17 @@ const projectFields = /* groq */ `
     }
   },
   ${pageBuilderFields}
+`;
+
+const featuredProjectFields = `
+  _id,
+  _type,
+  "title": coalesce(title, "Untitled"),
+  "slug": slug.current,
+  excerpt,
+  coverImage {
+    ${mediaFields}
+  },
 `;
 
 const projectMetaFields = `
@@ -79,6 +96,6 @@ export const projectSlugs = defineQuery(`
 
 export const featuredProjectsQuery = defineQuery(`
   *[_type == "project" && featured == true && defined(slug.current)] | order(_updatedAt desc) {
-    ${projectFields}
+    ${featuredProjectFields}
   }
 `);

@@ -1,10 +1,7 @@
 "use client";
-import { Gallery } from "@/sanity.types";
-import { urlForImage } from "@/sanity/lib/utils";
+import { Gallery, Media } from "@/sanity.types";
 import { cn } from "@sglara/cn";
-import Image from "next/image";
 import { useEffect, useState } from "react";
-import Video from "./Video";
 import { tagStyle } from "./styles/tag";
 import MediaRenderer from "./MediaRenderer";
 
@@ -30,6 +27,14 @@ export default function GalleryBlock({ block }: GalleryProps) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
+    }
+  };
+
+  const getMediaCaption = (media: Media & { image?: { alt?: string } }) => {
+    if (media.mediaType == "image") {
+      return media.image?.alt;
+    } else {
+      return media.caption;
     }
   };
 
@@ -68,7 +73,7 @@ export default function GalleryBlock({ block }: GalleryProps) {
                     media={
                       media.mediaType == "video" ? media.video : media.image
                     }
-                    alt={media.caption}
+                    alt={getMediaCaption(media)}
                     className={previewHeights}
                     imgSizes="(max-width: 1024px)50vw, 33vw"
                   />
@@ -109,7 +114,7 @@ export default function GalleryBlock({ block }: GalleryProps) {
                       media={
                         media.mediaType == "video" ? media.video : media.image
                       }
-                      alt={media.caption}
+                      alt={getMediaCaption(media)}
                       imgSizes="100vw"
                       className="w-full h-[40vh] sm:h-[60vh] lg:h-[100vh]"
                     />
@@ -117,7 +122,7 @@ export default function GalleryBlock({ block }: GalleryProps) {
                       <span className="font-bold">
                         {`${i + 1}/${fullMedia.length}`}{" "}
                       </span>
-                      {media.caption}
+                      {getMediaCaption(media)}
                     </figcaption>
                   </figure>
                 );

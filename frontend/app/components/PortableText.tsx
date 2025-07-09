@@ -109,7 +109,7 @@ export default function CustomPortableText({
                 sizes="(max-width: 1200px) 100vw, 50vw"
                 objectFit="cover"
                 className="h-auto w-full rounded-2xl"
-                alt={value.alt || ""}
+                alt={value.image.alt || ""}
               />
 
               {caption}

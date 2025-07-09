@@ -18,6 +18,7 @@ import {tabLink} from './objects/tabbedContent/tabLink'
 import {media} from './objects/media'
 import {gallery} from './objects/gallery'
 import {pageBuilder} from './objects/pageBuilder'
+import {imageWithMetadata} from './objects/imageWithMetadata/imageWithMetadata'
 
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/schema-types
 
@@ -45,4 +46,6 @@ export const schemaTypes = [
   media,
   link,
   seo,
+  // Types with Custom Input
+  imageWithMetadata,
 ]

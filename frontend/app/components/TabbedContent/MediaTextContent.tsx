@@ -46,7 +46,7 @@ export default function MediaTextContent({
             )}
           >
             <Image
-              alt={""}
+              alt={media.alt ?? ""}
               className={cn(
                 mediaContain ? "object-contain" : "object-cover",
                 mediaContain && "p-5"
