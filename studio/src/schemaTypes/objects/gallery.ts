@@ -14,4 +14,15 @@ export const gallery = defineType({
       of: [{type: 'media'}],
     }),
   ],
+  preview: {
+    select: {
+      items: 'media',
+    },
+    prepare({items}) {
+      return {
+        title: 'Gallery',
+        subtitle: items.length + ' Media items',
+      }
+    },
+  },
 })
