@@ -1,3 +1,8 @@
 [data-ui='Card'] [data-ui='Text'] {
   /* text-transform: capitalize; */
 }
+
+[data-ui='PopoverEditDialog'] {
+  max-height: unset !important;
+  top: 20% !important;
+}

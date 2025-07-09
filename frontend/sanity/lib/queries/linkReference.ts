@@ -5,7 +5,7 @@ export const linkReference = `
     _key,
     label,
     linkType,
-    externalUrl,
+    href,
     reference->{
       _type,
       _id,

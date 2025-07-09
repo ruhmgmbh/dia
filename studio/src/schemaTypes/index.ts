@@ -19,12 +19,17 @@ import {media} from './objects/media'
 import {gallery} from './objects/gallery'
 import {pageBuilder} from './objects/pageBuilder'
 import {imageWithMetadata} from './objects/imageWithMetadata/imageWithMetadata'
+import {header} from './singletons/header'
+import {linkWithLabel} from './objects/linkWithLabel'
+import {footer} from './singletons/footer'
 
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/schema-types
 
 export const schemaTypes = [
   // Singletons
   settings,
+  header,
+  footer,
   // Documents
   page,
   post,
@@ -45,6 +50,7 @@ export const schemaTypes = [
   gallery,
   media,
   link,
+  linkWithLabel,
   seo,
   // Types with Custom Input
   imageWithMetadata,

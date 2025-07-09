@@ -7,6 +7,7 @@ type linkSlug = {
 };
 
 export type linkField = {
+  href: string;
   page: linkSlug;
   post: linkSlug & {
     title: string;

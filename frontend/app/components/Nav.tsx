@@ -6,6 +6,10 @@ import Link from "next/link";
 
 import Logo from "@/assets/logo/logo.svg";
 import Menu from "@/assets/icons/menu.svg";
+import { linkField } from "../types/LinkFields";
+import { LinkWithLabel } from "../types/NavigationFields";
+import { linkResolver } from "@/sanity/lib/utils";
+import { GroqLink } from "./TabbedContent/TeaserContent";
 
 interface link {
   label: string;
@@ -64,7 +68,15 @@ const socials: link[] = [
   },
 ];
 
-export default function Navigation() {
+export default function Navigation({
+  primaryLinks,
+  secondaryLinks,
+  socialLinks,
+}: {
+  primaryLinks: LinkWithLabel[];
+  secondaryLinks: LinkWithLabel[];
+  socialLinks: LinkWithLabel[];
+}) {
   const [menuOpen, toggleMenu] = useState(false);
 
   const linkStyles = `px-3.5 py-2.5 rounded-[3px]`;
@@ -76,7 +88,7 @@ export default function Navigation() {
       className="bg-black text-ruhm-khaki flex flex-col rounded-[5px] mt-6 shadow-nav fixed top-0"
       onMouseLeave={() => toggleMenu(false)}
     >
-      <div className="flex justify-between p-2.5">
+      <div className="flex justify-between p-2.5 pr-5">
         <Link href="/" className={cn(linkStyles, hoverDefault)}>
           <Logo width={45} height={45} className="fill-ruhm-khaki" />
         </Link>
@@ -88,11 +100,7 @@ export default function Navigation() {
           )}
           onClick={() => toggleMenu(!menuOpen)}
         >
-          <MenuIcon
-            width={24}
-            height={24}
-            className="fill-ruhm-khaki"
-          ></MenuIcon>
+          <Menu width={24} height={24} className="fill-ruhm-khaki"></Menu>
         </div>
       </div>
 
@@ -100,11 +108,14 @@ export default function Navigation() {
       <nav className={`${menuOpen ? "flex" : "hidden"} flex-col gap-2.5`}>
         <div className="flex gap-2.5 px-2.5">
           <div className="flex flex-col">
-            {mainLinks.map((link, i) => {
+            {primaryLinks.map((link, i) => {
+              const _link = (link as GroqLink).link;
+              if (!_link) return null;
+
               return (
                 <Link
                   key={i}
-                  href={link.url}
+                  href={linkResolver(_link)!}
                   className={cn(linkStyles, hoverDefault)}
                 >
                   {link.label}
@@ -114,11 +125,14 @@ export default function Navigation() {
           </div>
 
           <div className="flex flex-col">
-            {socials.map((link, i) => {
+            {socialLinks.map((link, i) => {
+              const _link = (link as GroqLink).link;
+              if (!_link) return null;
+
               return (
                 <Link
                   key={i}
-                  href={link.url}
+                  href={linkResolver(_link)!}
                   target="_blank"
                   className={cn(linkStyles, hoverDefault)}
                 >
@@ -130,11 +144,14 @@ export default function Navigation() {
         </div>
 
         <div className="flex flex-col bg-ruhm-red px-2.5 py-2.5">
-          {secondLinks.map((link, i) => {
+          {secondaryLinks.map((link, i) => {
+            const _link = (link as GroqLink).link;
+            if (!_link) return null;
+
             return (
               <Link
                 key={i}
-                href={link.url}
+                href={linkResolver(_link)!}
                 className={cn(linkStyles, hoverGrey)}
               >
                 {link.label}

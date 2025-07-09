@@ -23,7 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   if (allPostsAndPages != null && allPostsAndPages.data.length != 0) {
-    let priority: number;
+    let priority: number = 0;
     let changeFrequency:
       | "monthly"
       | "always"
@@ -33,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       | "yearly"
       | "never"
       | undefined;
-    let url: string;
+    let url: string = "";
 
     for (const p of allPostsAndPages.data) {
       switch (p._type) {
@@ -46,6 +46,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           priority = 0.5;
           changeFrequency = "never";
           url = `${domain}/posts/${p.slug}`;
+          break;
+        case "project":
+          priority = 0.5;
+          changeFrequency = "never";
+          url = `${domain}/projects/${p.slug}`;
+          break;
+        case "person":
+          priority = 0.5;
+          changeFrequency = "never";
+          url = `${domain}/people/${p.slug}`;
+          break;
+        case "client":
+          priority = 0.5;
+          changeFrequency = "never";
+          url = `${domain}/clients/${p.slug}`;
+          break;
+        case "service":
+          priority = 0.7;
+          changeFrequency = "yearly";
+          url = `${domain}/services/${p.slug}`;
           break;
       }
       sitemap.push({

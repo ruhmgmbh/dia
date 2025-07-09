@@ -16,6 +16,9 @@ import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { settingsQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { handleError } from "./client-utils";
+import { SettingsQueryResult } from "@/sanity.types";
+
+const defaultTitle = "Ruhm";
 
 /**
  * Generate metadata for the page.
@@ -27,37 +30,28 @@ export async function generateMetadata(): Promise<Metadata> {
     // Metadata should never contain stega
     stega: false,
   });
-  const title = settings?.title || demo.title;
-  const description = settings?.description || demo.description;
 
-  const ogImage = resolveOpenGraphImage(settings?.ogImage);
+  const suffixTitle = settings?.websiteTitle ?? defaultTitle;
+
+  const title = settings?.seo?.title;
+  const description = settings?.seo?.description;
+
+  const ogImage = resolveOpenGraphImage(settings?.seo?.image);
   let metadataBase: URL | undefined = undefined;
-  try {
-    metadataBase = settings?.ogImage?.metadataBase
-      ? new URL(settings.ogImage.metadataBase)
-      : undefined;
-  } catch {
-    // ignore
-  }
+
   return {
     metadataBase,
     title: {
-      template: `%s | ${title}`,
-      default: title,
+      template: `%s | ${suffixTitle}`,
+      default: `${title} | ${suffixTitle}`,
     },
-    description: toPlainText(description),
+    description: description,
     openGraph: {
       images: ogImage ? [ogImage] : [],
     },
     robots: { index: false },
-  };
+  } satisfies Metadata;
 }
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const helveticaNow = localFont({
   src: "../assets/font/HelveticaNow/HelveticaNowText-Medium.woff2",
