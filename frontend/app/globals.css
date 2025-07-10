@@ -43,6 +43,19 @@
   max-width: var(--max-width);
 }
 
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@utility spinSlow {
+  animation: spin 7s linear infinite;
+}
+
 @theme {
   --shadow-layer: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
   --shadow-nav: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
