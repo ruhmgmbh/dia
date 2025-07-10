@@ -58,6 +58,7 @@ export default function Navigation({
 
         const targetWidth = navElement.offsetWidth;
         const targetHeight = navElement.offsetHeight;
+        console.log(targetHeight);
 
         // Set initial state for animation (collapsed)
         gsap.set(navElement, { width: 0, height: 0 });
@@ -67,7 +68,7 @@ export default function Navigation({
           ease: "power2.out",
           duration: 0.4,
         }).to(navElement, {
-          height: targetHeight,
+          height: 260,
           ease: "power2.out",
           duration: 0.4,
         });
