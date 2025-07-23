@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@react-three/drei": "^10.5.2",
+    "@react-three/fiber": "^9.2.0",
     "@sanity/asset-utils": "^2.2.1",
     "@sanity/client": "^7.4.0",
     "@sanity/image-url": "^1.1.0",
@@ -32,12 +34,14 @@
     "sanity": "^3.91.0",
     "sonner": "^1.7.0",
     "styled-components": "^6.1.13",
-    "tailwindcss": "^4.1.8"
+    "tailwindcss": "^4.1.8",
+    "three": "^0.178.0"
   },
   "devDependencies": {
     "@types/node": "^20.17.17",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
+    "@types/three": "^0.178.1",
     "eslint": "^8.57.0",
     "eslint-config-next": "^15.1.6",
     "typescript": "5.6.3"

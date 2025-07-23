@@ -2,7 +2,7 @@
 import { Gallery, Media } from "@/sanity.types";
 import { cn } from "@sglara/cn";
 import { useEffect, useState } from "react";
-import { tagStyle } from "./styles/tag";
+import { tagStyle } from "./_styles/tag";
 import MediaRenderer from "./MediaRenderer";
 
 type GalleryProps = {

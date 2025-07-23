@@ -12,49 +12,57 @@ import {
 import OnBoarding from "@/app/components/Onboarding";
 import { createDataAttribute } from "next-sanity";
 
+import FloatingModel from "./3D/FloatingModel";
+import { Canvas } from "@react-three/fiber";
+import dynamic from "next/dynamic";
+import Project3DOverlay from "./3D/FloatingModel";
+import ProjectCardServer from "./Projects/ProjectCard.server";
+
 const Project = ({
   project,
 }: {
   project: FeaturedProjectsQueryResult[number];
 }) => {
-  const { _id, title, slug, coverImage } = project;
+  const { _id, title, slug, coverImage, threedurl } = project;
 
   const attr = createDataAttribute({
     id: _id,
     type: "project",
     path: "title",
   });
-
   return (
-    <article
-      data-sanity={attr()}
-      key={_id}
-      className="flex flex-col justify-between hover:bg-white relative w-full lg:w-1/3 p-2.5 gap-2.5 transition-colors hover:[&_h3]:text-black"
-    >
-      <Link
-        className="hover:text-brand underline transition-colors"
-        href={`/projects/${slug}`}
-      >
-        <span className="absolute inset-0 z-10" />
-      </Link>
+    <ProjectCardServer project={project} />
+    // <article
+    //   data-sanity={attr()}
+    //   key={_id}
+    //   className="flex flex-col justify-between bg-white relative w-full lg:w-1/3 p-2.5 gap-2.5 transition-colors hover:[&_h3]:text-black rounded-[5px]"
+    // >
+    //   {threedurl && <Project3DOverlay modelUrl={threedurl} scale={1.2} />}
 
-      <div className="relative aspect-[3/4]">
-        <Image
-          alt={coverImage?.alt || ""}
-          className="object-cover"
-          fill
-          src={
-            urlForImage(coverImage)?.fit("crop").auto("format").url() as string
-          }
-        />
-      </div>
+    //   <Link
+    //     className="hover:text-brand underline transition-colors"
+    //     href={`/projects/${slug}`}
+    //   >
+    //     <span className="absolute inset-0 z-10" />
+    //   </Link>
 
-      <div>
-        <h3 className="text-h3 text-white hover:text-black transition-colors">
-          {title}
-        </h3>
-      </div>
-    </article>
+    //   <div className="relative aspect-[4/3]">
+    //     <Image
+    //       alt={coverImage?.alt || ""}
+    //       className="object-cover"
+    //       fill
+    //       src={
+    //         urlForImage(coverImage)?.fit("crop").auto("format").url() as string
+    //       }
+    //     />
+    //   </div>
+
+    //   <div className="py-4">
+    //     <h3 className="text-h3 text-black hover:text-black transition-colors">
+    //       {title}
+    //     </h3>
+    //   </div>
+    // </article>
   );
 };
 

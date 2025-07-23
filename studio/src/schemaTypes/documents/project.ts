@@ -43,9 +43,9 @@ export const project = defineType({
       group: 'basicInfo',
     }),
     defineField({
-      name: 'content',
-      title: 'Content',
-      type: 'blockContent',
+      name: 'threedmodel',
+      title: '3D Model',
+      type: 'file',
       group: 'basicInfo',
     }),
     defineField({

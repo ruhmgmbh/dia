@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import ResolvedLink from "@/app/components/ResolvedLink";
 import { CallToAction, Link } from "@/sanity.types";
 
-import { tagStyle } from "./styles/tag";
+import { tagStyle } from "./_styles/tag";
 import { cn } from "@sglara/cn";
 import { linkField } from "../types/LinkFields";
 import MediaRenderer from "./MediaRenderer";

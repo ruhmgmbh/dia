@@ -17,6 +17,12 @@ import { settingsQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { handleError } from "./client-utils";
 import { SettingsQueryResult } from "@/sanity.types";
+import {
+  SceneModelProvider,
+  useSceneModels,
+} from "./components/3D/SceneModelProvider";
+import Scene from "./components/3D/Scene";
+import SceneLayer from "./components/3D/SceneLayer";
 
 const defaultTitle = "Ruhm";
 
@@ -80,7 +86,11 @@ export default async function RootLayout({
           {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
           <SanityLive onError={handleError} />
           <Header />
-          <main className="">{children}</main>
+
+          <SceneModelProvider>
+            <main className="">{children}</main>
+            <SceneLayer />
+          </SceneModelProvider>
           <Footer />
         </section>
         <SpeedInsights />

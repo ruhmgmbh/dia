@@ -63,6 +63,7 @@ const featuredProjectFields = `
   "title": coalesce(title, "Untitled"),
   "slug": slug.current,
   excerpt,
+  "threedurl": threedmodel.asset->url,
   coverImage {
     ${mediaFields}
   },
